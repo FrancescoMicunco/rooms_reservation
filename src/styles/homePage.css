@@ -1,0 +1,9 @@
+.homePage {
+    border: solid red 5px;
+    display: flex;
+}
+
+.roomList {
+    border: solid green 2px;
+    width: 80%;
+}
