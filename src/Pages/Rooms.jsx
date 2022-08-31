@@ -1,12 +1,12 @@
 import React from "react";
-import cardRoom from "../Components/RoomCard"
+import CardRoom from "../Components/RoomCard"
 
 const Rooms = (room) => {
     console.log("this is prop", room)
     return (<div>
         <h1> ROOMS </h1>
         <div>
-            <p>{room[0].name}</p>
+            <CardRoom />
         </div>
     </div>
     );
