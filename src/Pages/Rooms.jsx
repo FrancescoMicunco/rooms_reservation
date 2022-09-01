@@ -6,7 +6,7 @@ const Rooms = (room) => {
     return (<div>
         <h1> ROOMS </h1>
         <div>
-            <CardRoom />
+            <CardRoom key={room.name} />
         </div>
     </div>
     );
