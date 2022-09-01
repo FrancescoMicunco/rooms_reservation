@@ -2,6 +2,8 @@ import React from "react";
 import room from "../data/rooms";
 
 const CardRoom = () => {
+
+
     return (
         <div>
             {room.map((room) => (
