@@ -13,7 +13,7 @@ const CardRoom = () => {
                             <img src={room.small_pic} height="300" width="400" alt="" />
                         </div>
                         <div style={{ padding: "2%" }}>
-                            <h3 style={{ fontFamily: "Roboto", fontSize: "30px" }}>
+                            <h3 style={{ fontFamily: "Roboto", fontSize: "30px", color: "indigo" }}>
                                 {room.name.toUpperCase()}
                             </h3>
                             <p style={{ fontFamily: "Roboto", fontSize: "20px" }}>
