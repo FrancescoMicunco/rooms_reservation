@@ -22,12 +22,12 @@ const CardRoom = () => {
                                 impedit nulla ipsum error libero dicta possimus rerum ipsa ab
                                 dignissimos! Sapiente, praesentium eius?
                             </p>
-                            <p style={{ fontFamily: "Roboto", fontSize: "20px" }}>
+                            {/* <p style={{ fontFamily: "Roboto", fontSize: "20px" }}>
                                 Floor
                                 <span style={{ color: "red", fontWeight: "bold" }}>
                                     {room.floor}
                                 </span>
-                            </p>
+                            </p> */}
                         </div>
                     </div>
                 </>
