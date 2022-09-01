@@ -1,22 +1,23 @@
 const room = [{
-        name: "A",
+        name: "Margherita",
+
         floor: 1,
         bath: "yes",
-        small_pic: "",
+        small_pic: "/images/boxed.jpg",
     },
 
     {
-        name: "B",
+        name: "Gladiolo",
         floor: 1,
         bath: "yes",
-        small_pic: "",
+        small_pic: "/images/edelle.jpg",
     },
 
     {
-        name: "C",
-        floor: 1,
+        name: "Giaggiolo",
+        floor: 2,
         bath: "yes",
-        small_pic: "",
+        small_pic: "/images/visualsofdana.jpg",
     },
 ];
 

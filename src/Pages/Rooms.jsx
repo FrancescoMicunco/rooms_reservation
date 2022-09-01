@@ -4,9 +4,9 @@ import CardRoom from "../Components/RoomCard"
 const Rooms = (room) => {
     console.log("this is prop", room)
     return (<div>
-        <h1> ROOMS </h1>
+        <h1> OUR ROOMS </h1>
         <div>
-            <CardRoom key={room.name} />
+            <CardRoom key={room.id} />
         </div>
     </div>
     );
