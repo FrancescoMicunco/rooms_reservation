@@ -13,9 +13,9 @@ function App() {
                     <h1 className="bigTitle" > Room Reservation App </h1>
                 </div>
                 <Routes>
-                    <Route exact path="/" element={<HomePage room={Rooms} />} />
-                    <Route exact path="/rooms" element={<Rooms room={Rooms} />} />
-                    <Route exact path="/rooms/:name" element={<SingleRoom room={Rooms} />} />
+                    <Route exact path="/" element={<HomePage />} />
+                    <Route exact path="/rooms" element={<Rooms />} />
+                    <Route exact path="/rooms/:name" element={<SingleRoom />} />
                     <Route exact path="*" element={<ErrorPage />} />
                 </Routes>
             </BrowserRouter >

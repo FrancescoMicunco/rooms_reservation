@@ -1,9 +1,10 @@
 import React from "react";
 import CardRoom from "../Components/RoomCard"
 import room from "../data/rooms.js";
-
+import { useNavigate } from 'react-router-dom'
 
 const Rooms = () => {
+
 
     return (
 
@@ -11,7 +12,7 @@ const Rooms = () => {
             <h1> OUR ROOMS </h1>
 
             <div >
-                <CardRoom key={room.id} room={room} />
+                <CardRoom key={room._id} room={room} style={{ cursor: 'pointer' }} />
             </div>
         </div >
     );
