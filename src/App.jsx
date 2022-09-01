@@ -3,22 +3,23 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
 import SingleRoom from './Pages/SingleRoom'
 import ErrorPage from './Pages/ErrorPage'
+import Rooms from "./Pages/Rooms";
 
 function App() {
     return (
-
-        <BrowserRouter>
-            <div>
-                <h1 className="bigTitle" > Room Reservation App </h1>
-            </div>
-            <Routes>
-                {/* <div className="App" > */}
-                <Route path="/" element={<HomePage />} />
-                <Route path="/:id" element={<SingleRoom />} />
-                <Route path="*" element={<ErrorPage />} />
-                {/* </div> */}
-            </Routes>
-        </BrowserRouter>
+        <div className="App" >
+            <BrowserRouter>
+                <div>
+                    <h1 className="bigTitle" > Room Reservation App </h1>
+                </div>
+                <Routes>
+                    <Route exact path="/" element={<HomePage room={Rooms} />} />
+                    <Route exact path="/rooms" element={<Rooms room={Rooms} />} />
+                    <Route exact path="/rooms/:name" element={<SingleRoom room={Rooms} />} />
+                    <Route exact path="*" element={<ErrorPage />} />
+                </Routes>
+            </BrowserRouter >
+        </div>
     );
 }
 

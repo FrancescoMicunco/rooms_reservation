@@ -1,8 +1,11 @@
 import React from "react";
+import { useParams } from 'react-router-dom'
 
 const SingleRoom = () => {
+    let { name } = useParams()
     return (
-        <h1>Single Page Description</h1>
+
+        < h1 > {name} Description</h1 >
     )
 
 

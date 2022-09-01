@@ -1,13 +1,17 @@
 import React from "react";
 import CardRoom from "../Components/RoomCard"
+import room from "../data/rooms.js";
 
-const Rooms = (room) => {
-    console.log("this is prop", room)
+
+const Rooms = () => {
+
     return (
-        <div>
+
+        < div >
             <h1> OUR ROOMS </h1>
-            <div onClick={e => console.log("single room")}>
-                <CardRoom key={room.id} />
+
+            <div >
+                <CardRoom key={room.id} room={room} />
             </div>
         </div >
     );
