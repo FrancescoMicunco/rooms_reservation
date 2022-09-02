@@ -7,4 +7,16 @@
     background-color: rgba(0, 0, 0, 0.664);
     color: rgb(187, 187, 187);
     min-height: 100vh;
+    font-size: 20px;
+}
+
+table {
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+.textSidebar {
+    padding-left: 7%;
+    text-align: left;
+    font-weight: bold;
 }
