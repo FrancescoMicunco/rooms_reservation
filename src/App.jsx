@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
 import SingleRoom from './Pages/SingleRoom'
 import ErrorPage from './Pages/ErrorPage'
@@ -10,7 +10,9 @@ function App() {
         <div className="App" >
             <BrowserRouter>
                 <div>
+
                     <h1 className="bigTitle" > Room Reservation App </h1>
+
                 </div>
                 <Routes>
                     <Route exact path="/" element={<HomePage />} />
