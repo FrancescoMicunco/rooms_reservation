@@ -3,7 +3,7 @@
 }
 
 .bigTitle {
-    color: red;
+    color: rgb(94, 10, 143);
     font-family: Arial;
     font-size: 48px;
 }
@@ -16,6 +16,10 @@
 
 .App-link {
     color: #61dafb;
+}
+
+.link {
+    text-decoration: none;
 }
 
 @keyframes App-logo-spin {

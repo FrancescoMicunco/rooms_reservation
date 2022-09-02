@@ -10,9 +10,9 @@ function App() {
         <div className="App" >
             <BrowserRouter>
                 <div>
-
-                    <h1 className="bigTitle" > Room Reservation App </h1>
-
+                    <Link className="link" to='/'>
+                        <h1 className="bigTitle" > Room Reservation App </h1>
+                    </Link>
                 </div>
                 <Routes>
                     <Route exact path="/" element={<HomePage />} />
