@@ -4,5 +4,7 @@
 
 .sidebar {
     width: 250px;
-    border: solid red 2px;
+    background-color: rgba(0, 0, 0, 0.664);
+    color: rgb(187, 187, 187);
+    min-height: 100vh;
 }
