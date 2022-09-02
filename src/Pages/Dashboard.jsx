@@ -1,6 +1,6 @@
 import React from "react";
 import Sidebar from "../Components/Sidebar"
-import Registration from "./Registration"
+import Reservation from "./Reservation"
 import '../styles/dashBoard.css'
 
 const Dashboard = () => {
@@ -8,8 +8,8 @@ const Dashboard = () => {
         <div className="dashboard">
             <Sidebar />
             <div>
-                <h1>Dashboard</h1>
-                <Registration />
+
+                <Reservation />
             </div>
         </div>
     );
