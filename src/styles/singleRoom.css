@@ -21,3 +21,8 @@
     margin: 10% 30%;
     padding: 3% 0
 }
+
+.divider {
+    border: solid 4px rgba(128, 128, 128, 0.449);
+    margin: 50px 150px;
+}

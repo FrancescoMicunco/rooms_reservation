@@ -23,7 +23,7 @@ const SingleRoom = () => {
                     Doloremque quia hic voluptatibus quaerat cum aliquam, voluptas dolores ut explicabo distinctio!
                 </h3>
             </div>
-
+            <div className="divider"></div>
 
         </div >
 
