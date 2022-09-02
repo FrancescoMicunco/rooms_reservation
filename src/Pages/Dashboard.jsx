@@ -1,6 +1,14 @@
+import React from "react";
+import Sidebar from "../Components/Sidebar"
+import '../styles/dashBoard.css'
+
 const Dashboard = () => {
     return (
-        <h1>Dashboard</h1>
+        <div className="dashboard">
+            <Sidebar />
+            <h1>Dashboard</h1>
+
+        </div>
     );
 }
 
