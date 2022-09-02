@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from 'react-router-dom'
 import room from "../data/rooms"
+import '../styles/singleRoom.css'
 
 const SingleRoom = () => {
 
@@ -18,18 +19,9 @@ const SingleRoom = () => {
 
         <div>
 
-            <div style={{
-                backgroundImage: "url('https://picsum.photos/500/200')",
-                position: 'relative',
-                backgroundPosition: 'top',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'contain',
-                minHeight: '50vh',
-                paddingTop: '15%'
-
-            }}>
-                <div style={{ position: 'absolute', background: 'rgba(0,0,0,0.5)', top: '15%', width: '100%' }}>
-                    < h1 style={{ color: 'white', border: 'solid 8px white', margin: '10% 30%', padding: '3% 0' }}> {params.name} Room</h1 >
+            <div className="bigContainer" >
+                <div className="hero">
+                    < h1 className="bigH1" style={{ color: 'white', border: 'solid 8px white', margin: '10% 30%', padding: '3% 0' }}> {params.name} Room</h1 >
                 </div>
             </div>
 

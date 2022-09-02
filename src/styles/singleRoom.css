@@ -1,0 +1,23 @@
+.bigContainer {
+    background-image: url("https://picsum.photos/500/200");
+    position: relative;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    min-height: 50vh;
+    padding-top: 15%
+}
+
+.hero {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    top: 15%;
+    width: 100%
+}
+
+.bigH1 {
+    color: white;
+    border: solid 8px white;
+    margin: 10% 30%;
+    padding: 3% 0
+}
