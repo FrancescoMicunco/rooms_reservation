@@ -26,3 +26,27 @@
     border: solid 4px rgba(128, 128, 128, 0.449);
     margin: 50px 150px;
 }
+
+.iconSection {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0;
+}
+
+.singleIconCard {
+    display: flex;
+    justify-content: space-around;
+    vertical-align: baseline;
+    align-content: center;
+}
+
+.icon {
+    font-size: 50px;
+    color: rgb(149, 149, 149);
+}
+
+.iconDescription {
+    font-size: 15px;
+    color: rgb(115, 75, 196);
+    font-weight: bold;
+}

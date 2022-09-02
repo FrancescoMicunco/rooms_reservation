@@ -2,6 +2,9 @@ import React from "react";
 import { useParams } from 'react-router-dom'
 import room from "../data/rooms"
 import '../styles/singleRoom.css'
+import { MdBathroom, MdAccessibleForward, MdSmokingRooms } from 'react-icons/md'
+
+
 
 const SingleRoom = () => {
 
@@ -19,11 +22,39 @@ const SingleRoom = () => {
             </div>
 
             <div>
-                <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Doloremque quia hic voluptatibus quaerat cum aliquam, voluptas dolores ut explicabo distinctio!
+                <h3>{roomSelected.description}
                 </h3>
             </div>
             <div className="divider"></div>
+            <div className="iconSection" >
+                <div className='singleIconCard'>
+                    <MdBathroom className='icon' />
+                    <p className='iconDescription'>{roomSelected.bath}</p>
+                </div>
+                <div className='singleIconCard'>
+                    <MdAccessibleForward className='icon' />
+                    <p className='iconDescription'>{roomSelected.handicapHallowed}</p>
+                </div>
+                <div className='singleIconCard'>
+                    <MdSmokingRooms className='icon' />
+                    <p className='iconDescription'>{roomSelected.bath}</p>
+                </div>
+            </div>
+            <div className="iconSection" >
+                <div className='singleIconCard'>
+                    <MdBathroom className='icon' />
+                    <p className='iconDescription'>{roomSelected.bath}</p>
+                </div>
+                <div className='singleIconCard'>
+                    <MdAccessibleForward className='icon' />
+                    <p className='iconDescription'>{roomSelected.handicapHallowed}</p>
+                </div>
+                <div className='singleIconCard'>
+                    <MdSmokingRooms className='icon' />
+                    <p className='iconDescription'>{roomSelected.bath}</p>
+                </div>
+            </div>
+
 
         </div >
 

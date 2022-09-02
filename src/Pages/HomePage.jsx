@@ -1,5 +1,4 @@
 import React from "react";
-import Rooms from "./Rooms";
 import "../styles/homePage.css";
 import { useNavigate, Link } from "react-router-dom"
 
