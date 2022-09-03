@@ -7,7 +7,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard">
             <Sidebar />
-            <div>
+            <div style={{ paddingLeft: '10%' }}>
 
                 <Reservation />
             </div>
