@@ -5,7 +5,7 @@ const room = [{
         floor: 1,
         bath: "yes",
         handicapHallowed: "yes",
-        small_pic: "/images/boxed.jpg",
+        small_pic: ["/images/boxed.jpg"],
         maxHost: 4,
     },
 
@@ -16,7 +16,7 @@ const room = [{
         floor: 1,
         bath: "yes",
         handicapHallowed: "yes",
-        small_pic: "/images/edelle.jpg",
+        small_pic: ["/images/edelle.jpg"],
         maxHost: 2,
     },
 
@@ -27,7 +27,7 @@ const room = [{
         floor: 2,
         bath: "yes",
         handicapHallowed: "no",
-        small_pic: "/images/visualsofdana.jpg",
+        small_pic: ["/images/visualsofdana.jpg"],
         maxHost: 4,
     },
 ];
