@@ -1,8 +1,13 @@
 import express from "express";
 import "dotenv/config";
-
+import roomRouter from "./EndPoints/rooms/index.js";
 import listEndpoints from "express-list-endpoints";
 import mongoose from "mongoose";
+import {
+    badRequestHandler,
+    notFoundHandler,
+    genericErrorHandler,
+} from "./Middleware/errorHadler.js";
 
 const app = express();
 
@@ -14,7 +19,13 @@ app.use(express.json());
 
 // ============= Endpoints
 
+app.use("/rooms", roomRouter);
+
 // ============= errors
+
+app.use(badRequestHandler);
+app.use(notFoundHandler);
+app.use(genericErrorHandler);
 
 // ============= Connections
 const connection = process.env.DB_CONNECTION;
@@ -30,3 +41,10 @@ mongoose
     .catch((error) => {
         console.log(error);
     });
+
+mongoose.connection.on("connected", () => {
+    console.log("DB correctly connected");
+});
+mongoose.connection.on("error", () => {
+    console.log("DB uncorrectly connected");
+});
