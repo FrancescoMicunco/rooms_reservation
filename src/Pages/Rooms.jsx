@@ -1,7 +1,7 @@
 import React from "react";
 import CardRoom from "../Components/RoomCard"
 import room from "../data/rooms.js";
-import { useNavigate } from 'react-router-dom'
+
 
 const Rooms = () => {
 
