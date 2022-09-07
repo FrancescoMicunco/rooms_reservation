@@ -6,11 +6,12 @@ import Management from "./Management"
 import Settings from "./Settings"
 import '../styles/dashBoard.css'
 
-const Dashboard = () => {
+const Dashboard = (reservation) => {
     const [item, setItem] = React.useState()
+    console.log("reservation from dashboard", reservation)
 
     let Mycomponent = item || Reservation
-    console.log("MyComponent", Mycomponent)
+    // console.log("MyComponent", Mycomponent)
     return (
         <div className="dashboard">
             <Sidebar setItem={setItem} />

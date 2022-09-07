@@ -23,23 +23,21 @@ function App() {
         console.log("those are the rooms", rooms)
 
         async function fetchReservation() {
-            const reservations = await axios('http://localhost:3002/rooms');
-            setReservation(reservations.data)
+            const reservations = await axios('http://localhost:3002/reservation');
+            setReservation(await reservations.data)
         }
-        fetchData()
+        fetchReservation()
         console.log("those are the reservations", reservation)
-
     }, [])
 
     return (
         <div className="App" >
             <BrowserRouter>
                 <ButtonAppBar />
-
                 <Routes>
                     <Route exact path="/" element={<HomePage />} />
                     <Route exact path="/rooms" element={<Rooms rooms={rooms} />} />
-                    <Route exact path="/dashboard" element={<Dashboard />} />
+                    <Route exact path="/dashboard" element={<Dashboard reservations={reservation} />} />
                     <Route exact path="/rooms/:name" element={<SingleRoom />} />
                     <Route exact path="*" element={<ErrorPage />} />
                 </Routes>
