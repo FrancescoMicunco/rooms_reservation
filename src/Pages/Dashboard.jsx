@@ -16,8 +16,11 @@ const Dashboard = (reservation) => {
         <div className="dashboard">
             <Sidebar setItem={setItem} />
             <div style={{ paddingLeft: '10%' }}>
-                <Mycomponent />
-                {/* <Reservation /> */}
+                {/* <Mycomponent /> */}
+                {
+                    item === "Reservation" ?
+                        <Reservation /> : item === "Registration" ? <Registration /> : item === "Management" ? <Management />
+                            : <Settings />}
             </div>
         </div>
     );

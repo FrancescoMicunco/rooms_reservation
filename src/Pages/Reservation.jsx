@@ -11,24 +11,36 @@ import SendIcon from '@mui/icons-material/Send';
 
 
 const Reservation = () => {
-    const [name, setName] = React.useState('');
-    const [last_name, setLastName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [rooms, setRooms] = React.useState('');
+    const [roomName, setRoomName] = React.useState('');
+    const [customerName, setCustomerName] = React.useState('');
+    const [customerEmail, setCustomerEmail] = React.useState('');
+    const [customerPhoneNumber, setCustomerPhoneNumber] = React.useState('');
+    const [startingDate, setStartingDate] = React.useState('');
+    const [endingDate, setEndingDate] = React.useState('');
+    const [hostNumber, setHostNumber] = React.useState();
 
+    const newReservation = [roomName, customerName, customerEmail, customerPhoneNumber, startingDate, endingDate, hostNumber]
     const handleChange = (event) => {
-        setName(event.target.value);
+        setRoomName(event.target.value);
     };
 
     const handleChangeLastName = (event) => {
-        setLastName(event.target.value);
+        customerName(event.target.value);
+    };
+
+    const handleChangePhone = (event) => {
+        setCustomerPhoneNumber(event.target.value);
     };
 
     const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
+        setCustomerEmail(event.target.value);
     };
-    const handleChangeRooms = (event) => {
-        setRooms(event.target.value);
+
+    const handlestartingDate = (event) => {
+        setStartingDate(event.target.value);
+    };
+    const handlehostNumber = (event) => {
+        setHostNumber(event.target.value);
     };
     return (
         <div >
