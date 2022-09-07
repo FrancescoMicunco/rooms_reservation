@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 import roomRouter from "./EndPoints/rooms/index.js";
+import resRouter from "./EndPoints/reservations/index.js";
 import listEndpoints from "express-list-endpoints";
 import mongoose from "mongoose";
 import {
@@ -20,6 +21,7 @@ app.use(express.json());
 // ============= Endpoints
 
 app.use("/rooms", roomRouter);
+app.use("/reservation", resRouter);
 
 // ============= errors
 

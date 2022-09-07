@@ -12,6 +12,8 @@ import axios from 'axios'
 function App() {
 
     const [rooms, setRooms] = useState([])
+    const [reservation, setReservation] = useState([])
+
     useEffect(() => {
         async function fetchData() {
             const data = await axios('http://localhost:3002/rooms');
@@ -19,6 +21,13 @@ function App() {
         }
         fetchData()
         console.log("those are the rooms", rooms)
+
+        async function fetchReservation() {
+            const reservations = await axios('http://localhost:3002/rooms');
+            setReservation(reservations.data)
+        }
+        fetchData()
+        console.log("those are the reservations", reservation)
 
     }, [])
 
