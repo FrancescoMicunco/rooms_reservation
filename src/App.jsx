@@ -14,21 +14,20 @@ function App() {
     const [rooms, setRooms] = useState([])
     const [reservation, setReservation] = useState([])
 
-    useEffect(() => {
-        async function fetchData() {
-            const data = await axios('http://localhost:3002/rooms');
-            setRooms(data.data)
-        }
-        fetchData()
-        console.log("those are the rooms", rooms)
+    // here we get rooms from the server
+    async function fetchData() {
+        const data = await axios('http://localhost:3002/rooms');
+        setRooms(data.data)
+    }
 
-        async function fetchReservation() {
-            const reservations = await axios('http://localhost:3002/reservation');
-            setReservation(await reservations.data)
-        }
-        fetchReservation()
-        console.log("those are the reservations", reservation)
+
+    // here we download the rooms for the first time
+    useEffect(() => {
+        fetchData()
     }, [])
+
+
+
 
     return (
         <div className="App" >
@@ -37,7 +36,7 @@ function App() {
                 <Routes>
                     <Route exact path="/" element={<HomePage />} />
                     <Route exact path="/rooms" element={<Rooms rooms={rooms} />} />
-                    <Route exact path="/dashboard" element={<Dashboard reservations={reservation} />} />
+                    <Route exact path="/dashboard" element={<Dashboard reservations={reservation} setReservation={setReservation} />} />
                     <Route exact path="/rooms/:name" element={<SingleRoom />} />
                     <Route exact path="*" element={<ErrorPage />} />
                 </Routes>
