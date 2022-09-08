@@ -8,9 +8,11 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
+import StickyHeadTable from "../Components/TableReservation"
 
+const Reservation = ({ reservation }, setReservation) => {
+    console.log("reservation from reservation", reservation)
 
-const Reservation = () => {
     const [roomName, setRoomName] = React.useState('');
     const [customerName, setCustomerName] = React.useState('');
     const [customerEmail, setCustomerEmail] = React.useState('');
@@ -20,12 +22,14 @@ const Reservation = () => {
     const [hostNumber, setHostNumber] = React.useState();
 
     const newReservation = [roomName, customerName, customerEmail, customerPhoneNumber, startingDate, endingDate, hostNumber]
+
+
     const handleChange = (event) => {
         setRoomName(event.target.value);
     };
 
     const handleChangeLastName = (event) => {
-        customerName(event.target.value);
+        setCustomerName(event.target.value);
     };
 
     const handleChangePhone = (event) => {
@@ -36,16 +40,27 @@ const Reservation = () => {
         setCustomerEmail(event.target.value);
     };
 
-    const handlestartingDate = (event) => {
+    const handleStartingDate = (event) => {
         setStartingDate(event.target.value);
     };
-    const handlehostNumber = (event) => {
+
+    const handleEndingDate = (event) => {
+        setEndingDate(event.target.value);
+    };
+
+    const handleHostNumber = (event) => {
         setHostNumber(event.target.value);
     };
     return (
         <div >
-            <h1>Reservation</h1>
-            <Box style={{ display: 'flex', flexDirection: 'column' }}
+            <h1>Reservation List     <span style={{ fontSize: "35px", color: "blue", cursor: "pointer" }} onClick={() => alert("click to add new reservation")}>+</span></h1>
+            {
+                <StickyHeadTable reservation={reservation} setReservation={setReservation} />
+
+            }
+
+
+            {/* <Box style={{ display: 'flex', flexDirection: 'column' }}
                 component="form"
                 sx={{
                     '& > :not(style)': { m: 1 },
@@ -54,40 +69,71 @@ const Reservation = () => {
                 autoComplete="off"
             >
                 <FormControl>
-                    <InputLabel htmlFor="component-outlined">rooms</InputLabel>
+                    <InputLabel htmlFor="component-outlined">Room name</InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={rooms}
-                        onChange={handleChangeRooms}
-                        label="Name"
-                    />
-                </FormControl>
-
-
-                <FormControl>
-                    <InputLabel htmlFor="component-outlined">Name</InputLabel>
-                    <OutlinedInput
-                        id="component-outlined"
-                        value={name}
+                        value={roomName}
                         onChange={handleChange}
                         label="Name"
                     />
                 </FormControl>
+
+
                 <FormControl>
-                    <InputLabel htmlFor="component-outlined">Last Name</InputLabel>
+                    <InputLabel htmlFor="component-outlined">Customer Name</InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={last_name}
+                        value={customerName}
                         onChange={handleChangeLastName}
                         label="Name"
                     />
                 </FormControl>
                 <FormControl>
-                    <InputLabel htmlFor="component-outlined">email</InputLabel>
+                    <InputLabel htmlFor="component-outlined">Customer email</InputLabel>
                     <OutlinedInput
                         id="component-outlined"
-                        value={email}
+                        value={customerEmail}
                         onChange={handleChangeEmail}
+                        label="Name"
+                    />
+                </FormControl>
+                <FormControl>
+                    <InputLabel htmlFor="component-outlined">customer Phone Number</InputLabel>
+                    <OutlinedInput
+                        id="component-outlined"
+                        value={customerPhoneNumber}
+                        onChange={handleChangePhone}
+                        label="Name"
+                    />
+                </FormControl>
+
+                <FormControl>
+                    <InputLabel htmlFor="component-outlined">Starting Date</InputLabel>
+                    <OutlinedInput
+                        id="component-outlined"
+                        value={startingDate}
+                        onChange={handleStartingDate}
+                        label="Name"
+                    />
+                </FormControl>
+
+
+                <FormControl>
+                    <InputLabel htmlFor="component-outlined">Ending Date</InputLabel>
+                    <OutlinedInput
+                        id="component-outlined"
+                        value={endingDate}
+                        onChange={handleEndingDate}
+                        label="Name"
+                    />
+                </FormControl>
+
+                <FormControl>
+                    <InputLabel htmlFor="component-outlined">Host number</InputLabel>
+                    <OutlinedInput
+                        id="component-outlined"
+                        value={hostNumber}
+                        onChange={handleHostNumber}
                         label="Name"
                     />
                 </FormControl>
@@ -96,7 +142,7 @@ const Reservation = () => {
                     Send
                 </Button>
 
-            </Box>
+            </Box> */}
         </div>
     )
 }
