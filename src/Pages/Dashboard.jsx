@@ -6,20 +6,18 @@ import Management from "./Management"
 import Settings from "./Settings"
 import '../styles/dashBoard.css'
 
-const Dashboard = (reservation) => {
+const Dashboard = (reservation, setReservation) => {
     const [item, setItem] = React.useState()
     console.log("reservation from dashboard", reservation)
 
-    let Mycomponent = item || Reservation
-    // console.log("MyComponent", Mycomponent)
+
     return (
         <div className="dashboard">
             <Sidebar setItem={setItem} />
             <div style={{ paddingLeft: '10%' }}>
-                {/* <Mycomponent /> */}
                 {
                     item === "Reservation" ?
-                        <Reservation /> : item === "Registration" ? <Registration /> : item === "Management" ? <Management />
+                        <Reservation reservation={reservation} setReservation={setReservation} /> : item === "Registration" ? <Registration /> : item === "Management" ? <Management />
                             : <Settings />}
             </div>
         </div>
