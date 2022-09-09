@@ -14,6 +14,11 @@ const app = express();
 
 const port = process.env.PORT || 3001;
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+});
+
 // ============= global middlewares
 
 app.use(express.json());
