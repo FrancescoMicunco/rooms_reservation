@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import axios from 'axios'
+
 
 
 const columns = [
@@ -18,7 +18,7 @@ const columns = [
         label: "From",
         minWidth: 170,
         align: "right",
-        format: (value) => value.toLocaleString("en-US"),
+        format: (value) => value.toLocaleTimeString("it-IT"),
     },
     {
         id: "endingDate",
@@ -27,41 +27,35 @@ const columns = [
         align: "right",
         format: (value) => value.toLocaleString("en-US"),
     },
-    {
-        id: "delete",
-        label: "Delete",
-        minWidth: 170,
-        align: "right",
-        format: (value) => value.toFixed(2),
-    },
-    {
-        id: "update",
-        label: "UpDate",
-        minWidth: 170,
-        align: "right",
-        format: (value) => value.toFixed(2),
-    },
+    // {
+    //     id: "delete",
+    //     label: "Delete",
+    //     minWidth: 170,
+    //     align: "right",
+    //     format: (value) => value.toFixed(2),
+    // },
+    // {
+    //     id: "update",
+    //     label: "UpDate",
+    //     minWidth: 170,
+    //     align: "right",
+    //     format: (value) => value.toFixed(2),
+    // },
 ];
 
-// function createData(roomName, from, To, Delete, UpDate) {
 
-//     return { roomName, from, To, Delete, UpDate };
-// }
-
-// const rows = [
-
-// ];
 
 
 
 export default function StickyHeadTable({ reservation }) {
 
-    console.log("reservations from table", reservation.reservations)
+    console.log("reservations from table", reservation?.reservations)
 
     const [rows, setRows] = React.useState(reservation.reservations)
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const lenght = rows.lenght
+    const [lenght, setLenght] = React.useState(rows.lenght)
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -72,23 +66,26 @@ export default function StickyHeadTable({ reservation }) {
     };
 
 
-    async function fetchReservation() {
-        const reservations = await axios('http://localhost:3002/reservation');
-        setRows(await reservations.data)
-        console.log("lenght", rows.length)
-    }
-    useEffect(() => {
 
 
-        fetchReservation()
 
 
-    }, [])
-    useEffect(() => { console.log("there is a new reservation!") }, [lenght])
+
+    // useEffect(() => {
+    //     async function fetchReservation() {
+    //         const reservations = await axios('http://localhost:3002/reservation');
+    //         setRows(await reservations?.data);
+    //         setLenght(reservation?.data?.lenght)
+    //         console.log("lenght & reservation", lenght, rows)
+    //     }
+
+    //     fetchReservation()
+    //     alert("there is a new reservation!")
+    // }, [lenght])
 
 
     return (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <Paper sx={{ width: "50vw", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -107,16 +104,16 @@ export default function StickyHeadTable({ reservation }) {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                                 return (
-                                    <TableRow hover role="checkbox"
-                                        tabIndex={-1}
-                                        key={row.code} >  {
-                                            columns.map((column) => {
-                                                const value = row[column.id];
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}
+                                    // onClick(()=>{console.log("here it is")}) 
+                                    >  {
+                                            columns?.map((column) => {
+                                                const value = row[column?.id];
                                                 return (
-                                                    <TableCell key={column.id}
-                                                        align={column.align}>  {
+                                                    <TableCell key={column?.id}
+                                                        align={column.align} >  {
                                                             column.format && typeof value === "number" ?
-                                                                column.format(value) :
+                                                                column?.format(value) :
                                                                 value
                                                         }  </TableCell>
                                                 );
