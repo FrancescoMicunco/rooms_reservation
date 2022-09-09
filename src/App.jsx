@@ -7,24 +7,31 @@ import Rooms from "./Pages/Rooms";
 import Dashboard from "./Pages/Dashboard";
 import ButtonAppBar from './Components/NavBar'
 import React, { useState, useEffect } from "react"
-import axios from 'axios'
+
 
 function App() {
 
     const [rooms, setRooms] = useState([])
     const [reservation, setReservation] = useState([])
 
-    // here we get rooms from the server
-    async function fetchData() {
-        const data = await axios('http://localhost:3002/rooms');
-        setRooms(data.data)
-    }
 
-
-    // here we download the rooms for the first time
+    //     // here we download the rooms for the first time
     useEffect(() => {
-        fetchData()
+
+        return async () => {
+            try {
+                const res = await fetch("http://localhost:3001/rooms")
+                if (res.ok) {
+                    const roomList = await res.json()
+                    console.log("res", roomList)
+                    setRooms(roomList)
+                } else { console.log("failed to fetch data") }
+            } catch (error) { console.log("server error") }
+
+        }
+
     }, [])
+
 
 
 
