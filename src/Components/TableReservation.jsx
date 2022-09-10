@@ -49,12 +49,12 @@ const columns = [
 
 export default function StickyHeadTable({ reservation }) {
 
-    console.log("reservations from table", reservation?.reservations)
+    // console.log("reservations from table", reservation)
 
-    const [rows, setRows] = React.useState(reservation.reservations)
+    const [rows, setRows] = React.useState(reservation)
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [lenght, setLenght] = React.useState(rows.lenght)
+    // const [lenght, setLenght] = React.useState(rows.lenght)
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -64,11 +64,6 @@ export default function StickyHeadTable({ reservation }) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
-
-
-
-
 
 
     // useEffect(() => {
@@ -105,7 +100,7 @@ export default function StickyHeadTable({ reservation }) {
                             .map((row) => {
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}
-                                    // onClick(()=>{console.log("here it is")}) 
+
                                     >  {
                                             columns?.map((column) => {
                                                 const value = row[column?.id];
