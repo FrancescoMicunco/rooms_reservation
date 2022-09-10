@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CardRoom from "../Components/RoomCard"
-// import room from "../data/rooms.js";
+import axios from 'axios'
 
 
-const Rooms = ({ rooms }) => {
+const Rooms = () => {
+    const [rooms, setRooms] = useState([])
+
+    async function fetchAllRooms() {
+        try {
+            const data = (await axios.get('/rooms')).data
+            setRooms(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    useEffect(() => {
+
+        fetchAllRooms()
+    }, [])
 
     return (
 

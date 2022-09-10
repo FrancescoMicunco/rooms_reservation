@@ -13,7 +13,6 @@ const Sidebar = ({ setItem }) => {
 
     const handleEvent = (e) => {
         e.preventDefault();
-        console.log('this is e=>', e.target.innerHTML)
         setItem(e.target.innerHTML)
     }
     return (
