@@ -12,6 +12,7 @@ router
             const { _id } = await reservation.save();
             res.status(201).send({ _id });
         } catch (error) {
+            res.status(400).json({ error: error });
             next(error);
         }
     })

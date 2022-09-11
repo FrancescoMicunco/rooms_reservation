@@ -49,12 +49,11 @@ const columns = [
 
 export default function StickyHeadTable({ reservation }) {
 
-    // console.log("reservations from table", reservation)
-
-    const [rows, setRows] = React.useState(reservation)
+    console.log("reservations from table", reservation)
+    const rows = reservation
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    // const [lenght, setLenght] = React.useState(rows.lenght)
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -65,18 +64,6 @@ export default function StickyHeadTable({ reservation }) {
         setPage(0);
     };
 
-
-    // useEffect(() => {
-    //     async function fetchReservation() {
-    //         const reservations = await axios('http://localhost:3002/reservation');
-    //         setRows(await reservations?.data);
-    //         setLenght(reservation?.data?.lenght)
-    //         console.log("lenght & reservation", lenght, rows)
-    //     }
-
-    //     fetchReservation()
-    //     alert("there is a new reservation!")
-    // }, [lenght])
 
 
     return (
@@ -103,12 +90,12 @@ export default function StickyHeadTable({ reservation }) {
 
                                     >  {
                                             columns?.map((column) => {
-                                                const value = row[column?.id];
+                                                const value = row[column.id];
                                                 return (
-                                                    <TableCell key={column?.id}
+                                                    <TableCell key={column.id}
                                                         align={column.align} >  {
                                                             column.format && typeof value === "number" ?
-                                                                column?.format(value) :
+                                                                column.format(value) :
                                                                 value
                                                         }  </TableCell>
                                                 );

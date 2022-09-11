@@ -1,5 +1,5 @@
-import * as React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
@@ -16,25 +16,31 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+const Reservation = () => {
+
+    const [reservation, setReservation] = useState([])
+    const [roomName, setRoomName] = useState('');
+    const [customerName, setCustomerName] = useState('');
+    const [customerEmail, setCustomerEmail] = useState('');
+    const [customerPhoneNumber, setCustomerPhoneNumber] = useState('');
+    const [startingDate, setStartingDate] = useState('');
+    const [endingDate, setEndingDate] = useState('');
+    const [hostNumber, setHostNumber] = useState();
+    const [open, setOpen] = useState(false);
+
+    async function fetchAllReservations() {
+        try {
+            const data = (await axios.get('/reservation')).data
+            setReservation(data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useState(() => { fetchAllReservations() }, [])
 
 
-
-
-
-
-
-
-const Reservation = ({ reservation }, setReservation) => {
-
-
-    const [roomName, setRoomName] = React.useState('');
-    const [customerName, setCustomerName] = React.useState('');
-    const [customerEmail, setCustomerEmail] = React.useState('');
-    const [customerPhoneNumber, setCustomerPhoneNumber] = React.useState('');
-    const [startingDate, setStartingDate] = React.useState('');
-    const [endingDate, setEndingDate] = React.useState('');
-    const [hostNumber, setHostNumber] = React.useState();
-    const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -45,12 +51,7 @@ const Reservation = ({ reservation }, setReservation) => {
     };
 
 
-
-
-
-    const newReservation = [{ "roomName": "Salame piccante" }
-        // roomName, customerName, customerEmail, customerPhoneNumber, startingDate, endingDate, hostNumber
-    ]
+    const newReservation = { roomName: roomName }
 
 
     const handleChange = (event) => {
@@ -81,25 +82,16 @@ const Reservation = ({ reservation }, setReservation) => {
         setHostNumber(event.target.value);
     };
 
-    const handleAddReservation = async () => {
-        return async () => {
-            try {
-                const res = await fetch("http://localhost:3001/reservation", {
-                    method: "POST",
-                    body: JSON.stringify(newReservation),
-                    headers: new Headers({ "Content-Type": "application/json" }),
-                });
-                if (res.ok) {
-                    console.log("this is c =>", newReservation);
-                    alert("successful created!");
-                } else {
-                    alert("Failed creating new company");
-                }
-            } catch (error) {
-                console.log("server error");
-            }
-        };
-    }
+    function handleAddReservation() {
+        try {
+            axios.post("/reservation", newReservation)
+            // setReservation(...data)
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    };
 
     const handleSend = () => {
         handleAddReservation();
@@ -107,10 +99,8 @@ const Reservation = ({ reservation }, setReservation) => {
     }
     return (
         <div >
-            <h1>Reservation List     <span style={{ fontSize: "35px", color: "blue", cursor: "pointer" }}
-                // onClick={handleClickOpen}
-                onClick={handleAddReservation}
-            >+</span></h1>
+            <h1>Reservation List</h1>
+            <button style={{ fontSize: "35px", color: "blue", cursor: "pointer" }} onClick={handleClickOpen}>add</button>
             {
                 <StickyHeadTable reservation={reservation} setReservation={setReservation} />
 
