@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useStateIfMounted, useState, useEffect } from 'react';
 import axios from 'axios';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -8,7 +8,6 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import StickyHeadTable from "../Components/TableReservation.jsx"
-
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -29,16 +28,22 @@ const Reservation = () => {
     const [open, setOpen] = useState(false);
 
     async function fetchAllReservations() {
+        const config = {
+            method: 'get',
+            url: 'http://localhost:3001/reservation',
+            headers: {}
+        };
         try {
-            const data = (await axios.get('/reservation')).data
+            const data = (await axios(config)).data
             setReservation(data)
-
         } catch (error) {
             console.log(error)
         }
     }
 
-    useState(() => { fetchAllReservations() }, [])
+    useEffect(() => {
+        fetchAllReservations()
+    }, [])
 
 
 

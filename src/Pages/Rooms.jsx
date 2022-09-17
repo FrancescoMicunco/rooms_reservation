@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useStateIfMounted, useState, useEffect } from "react";
 import CardRoom from "../Components/RoomCard"
 import axios from 'axios'
 
@@ -7,13 +7,19 @@ const Rooms = () => {
     const [rooms, setRooms] = useState([])
 
     async function fetchAllRooms() {
+        const config = {
+            method: 'get',
+            url: 'http://localhost:3001/rooms',
+            headers: {}
+        };
         try {
-            const data = (await axios.get('/rooms')).data
+            const data = (await axios(config)).data
             setRooms(data)
         } catch (error) {
             console.log(error)
         }
     }
+
 
 
     useEffect(() => {
