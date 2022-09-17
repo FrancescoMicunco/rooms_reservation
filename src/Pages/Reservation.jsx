@@ -90,7 +90,7 @@ const Reservation = () => {
     function handleAddReservation() {
         try {
             axios.post("/reservation", newReservation)
-            // setReservation(...data)
+
         } catch (error) {
             console.log(error)
         }

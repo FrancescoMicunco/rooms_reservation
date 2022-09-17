@@ -9,7 +9,7 @@ import { MdBathroom, MdAccessibleForward, MdSmokingRooms } from 'react-icons/md'
 const SingleRoom = () => {
 
     let params = useParams()
-    let roomSelected = room?.find(r => r.name === params.name)
+    let roomSelected = room?.find(r => r._id === params._id)
 
     return (
 

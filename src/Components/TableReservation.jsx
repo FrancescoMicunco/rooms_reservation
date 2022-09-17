@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,6 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { DatePicker } from 'antd';
+import { Button, Modal } from 'antd';
+import axios from 'axios';
 import 'antd/dist/antd.css'
 
 
@@ -55,7 +57,32 @@ export default function StickyHeadTable({ reservation }) {
     const rows = reservation
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [selectedReservation, setSelectedReservation] = React.useState({})
+    const [open, setOpen] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [modalText, setModalText] = useState('Content of the modal');
 
+
+    // Modal to reservation details
+    const showModal = () => {
+        setOpen(true);
+    };
+
+    const handleOk = () => {
+        setModalText('The modal will be closed after two seconds');
+        setConfirmLoading(true);
+        setTimeout(() => {
+            setOpen(false);
+            setConfirmLoading(false);
+        }, 2000);
+    };
+
+    const handleCancel = () => {
+        let id = selectedReservation._id
+        deleteReservation(id)
+
+        setOpen(false);
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -66,13 +93,29 @@ export default function StickyHeadTable({ reservation }) {
         setPage(0);
     };
 
+    const handleSingleReservation = (e) => {
+        setSelectedReservation(e)
+        showModal()
+    }
+
+    async function deleteReservation(id) {
+        const config = {
+            method: 'delete',
+            url: `http://localhost:3001/reservation/${id}`,
+            headers: {}
+        };
+        try {
+            await axios(config)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
     return (
         <>
-
             <RangePicker />
-
 
             <Paper sx={{ width: "50vw", overflow: "hidden" }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
@@ -93,7 +136,7 @@ export default function StickyHeadTable({ reservation }) {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}
+                                        <TableRow hover role="checkbox" tabIndex={-1} onClick={() => handleSingleReservation(row)} key={row.code}
 
                                         >  {
                                                 columns?.map((column) => {
@@ -122,6 +165,23 @@ export default function StickyHeadTable({ reservation }) {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-            </Paper></>
+            </Paper>
+
+
+            <Modal
+                title="Reservation Detail"
+                open={open}
+                onOk={handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={handleCancel}
+            >
+                <p>Room Name  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.roomName}</span></p>
+                <p>Customer Name  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.customerName}</span></p>
+                <p>Host  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.hostNumber}</span></p>
+                <p>check in  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.startingDate}</span></p>
+                <p>check out  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.endingDate}</span></p>
+                <p>Customer email  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.customerEmail}</span></p>
+            </Modal>
+        </>
     );
 }
