@@ -9,8 +9,12 @@ router
     .post(async(req, res, next) => {
         try {
             const reservation = await reservationSchema(req.body);
-            const { _id } = await reservation.save();
-            res.status(201).send({ _id });
+            if (res) {
+                const { _id } = await reservation.save();
+                res.status(201).send({ _id });
+            } else {
+                console.log("impossible to create reservation");
+            }
         } catch (error) {
             res.status(400).json({ error: error });
             next(error);
