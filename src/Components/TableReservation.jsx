@@ -13,6 +13,7 @@ import axios from 'axios';
 import 'antd/dist/antd.css'
 
 
+
 const { RangePicker } = DatePicker;
 const columns = [
     { id: "roomName", label: "Room Name", minWidth: 170 },
@@ -31,24 +32,8 @@ const columns = [
         align: "right",
         format: (value) => value.toLocaleString("en-US"),
     },
-    // {
-    //     id: "delete",
-    //     label: "Delete",
-    //     minWidth: 170,
-    //     align: "right",
-    //     format: (value) => value.toFixed(2),
-    // },
-    // {
-    //     id: "update",
-    //     label: "UpDate",
-    //     minWidth: 170,
-    //     align: "right",
-    //     format: (value) => value.toFixed(2),
-    // },
+
 ];
-
-
-
 
 
 export default function StickyHeadTable({ reservation }) {
@@ -80,7 +65,6 @@ export default function StickyHeadTable({ reservation }) {
     const handleCancel = () => {
         let id = selectedReservation._id
         deleteReservation(id)
-
         setOpen(false);
     };
 
@@ -102,8 +86,8 @@ export default function StickyHeadTable({ reservation }) {
         const config = {
             method: 'delete',
             url: `http://localhost:3001/reservation/${id}`,
-            headers: {}
-        };
+            header: {}
+        }
         try {
             await axios(config)
 

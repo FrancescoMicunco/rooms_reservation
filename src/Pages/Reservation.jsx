@@ -1,8 +1,10 @@
-import React, { useStateIfMounted, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
@@ -25,25 +27,20 @@ const Reservation = () => {
     const [startingDate, setStartingDate] = useState('');
     const [endingDate, setEndingDate] = useState('');
     const [hostNumber, setHostNumber] = useState();
+    const [price, setPrice] = useState()
     const [open, setOpen] = useState(false);
 
-    async function fetchAllReservations() {
+    const fetchAllReservations = async () => {
         const config = {
             method: 'get',
             url: 'http://localhost:3001/reservation',
             headers: {}
         };
-        try {
-            const data = (await axios(config)).data
-            setReservation(data)
-        } catch (error) {
-            console.log(error)
-        }
+        const data = await axios(config)
+        setReservation(data.data)
     }
 
-    useEffect(() => {
-        fetchAllReservations()
-    }, [])
+    useEffect(() => { fetchAllReservations(setReservation) }, [setReservation])
 
 
 
@@ -56,7 +53,7 @@ const Reservation = () => {
     };
 
 
-    const newReservation = { roomName: roomName }
+    const newReservation = { roomName: roomName, customerName: customerName, price: price, customerEmail: customerEmail, customerPhoneNumber: customerPhoneNumber }
 
 
     const handleChange = (event) => {
@@ -94,8 +91,6 @@ const Reservation = () => {
         } catch (error) {
             console.log(error)
         }
-
-
     };
 
     const handleSend = () => {
@@ -107,7 +102,7 @@ const Reservation = () => {
             <h1>Reservation List</h1>
             <button style={{ fontSize: "35px", color: "blue", cursor: "pointer" }} onClick={handleClickOpen}>add</button>
             {
-                <StickyHeadTable reservation={reservation} setReservation={setReservation} />
+                <StickyHeadTable reservation={reservation} />
 
             }
 
@@ -120,12 +115,20 @@ const Reservation = () => {
 
                     <FormControl>
                         <InputLabel htmlFor="component-outlined">Room name</InputLabel>
-                        <OutlinedInput
-                            id="component-outlined"
+                        <Select
+                            id="select_roomName"
                             value={roomName}
                             onChange={handleChange}
-                            label="Name"
-                        />
+                            autoWidth
+                            label="Room Name"
+                        ><MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={10}>MARGHERITA</MenuItem>
+                            <MenuItem value={20}>GIGLIO</MenuItem>
+                            <MenuItem value={30}>GIAGGIOLO</MenuItem>
+                            <MenuItem value={40}>PESCO</MenuItem>
+                        </Select>
                     </FormControl>
 
                     <FormControl>
