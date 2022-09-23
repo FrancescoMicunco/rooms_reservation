@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
 import SingleRoom from './Pages/SingleRoom'
-import DetailReservation from './Pages/DetailReservation'
+import DetailReservation from './Pages/DetailReservation.jsx'
 import ErrorPage from './Pages/ErrorPage'
 import Rooms from "./Pages/Rooms";
 import Dashboard from "./Pages/Dashboard";
