@@ -14,7 +14,7 @@ const reservationSchema = new Schema({
     startingDate: { type: "date", required: true },
     endingDate: { type: "date", required: true },
     hostNumber: { type: "number", required: true },
-    price: { type: "number", required: true },
+    // price: { type: "number", required: true },
 });
 
 export default model("reservation", reservationSchema);
