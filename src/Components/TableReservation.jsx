@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,14 +7,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { DatePicker } from 'antd';
-import { Button, Modal } from 'antd';
+
+import { Modal } from 'antd';
 import axios from 'axios';
+
+// Date management
 import 'antd/dist/antd.css'
+import DataRange from "../Components/dateRangePicker.jsx"
 
 
 
-const { RangePicker } = DatePicker;
 const columns = [
     { id: "roomName", label: "Room Name", minWidth: 170 },
 
@@ -36,7 +38,7 @@ const columns = [
 ];
 
 
-export default function StickyHeadTable({ reservation }) {
+export default function StickyHeadTable({ reservation, setReservation }) {
 
     console.log("reservations from table", reservation)
     const rows = reservation
@@ -45,7 +47,7 @@ export default function StickyHeadTable({ reservation }) {
     const [selectedReservation, setSelectedReservation] = React.useState({})
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState('Content of the modal');
+    const [setModalText] = useState('Content of the modal');
 
 
     // Modal to reservation details
@@ -59,7 +61,7 @@ export default function StickyHeadTable({ reservation }) {
         setTimeout(() => {
             setOpen(false);
             setConfirmLoading(false);
-        }, 2000);
+        }, 500);
     };
 
     const handleCancel = () => {
@@ -90,7 +92,6 @@ export default function StickyHeadTable({ reservation }) {
         }
         try {
             await axios(config)
-
         } catch (error) {
             console.log(error)
         }
@@ -99,7 +100,7 @@ export default function StickyHeadTable({ reservation }) {
 
     return (
         <>
-            <RangePicker />
+            <DataRange />
 
             <Paper sx={{ width: "50vw", overflow: "hidden" }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
