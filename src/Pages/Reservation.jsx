@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import FormControl from '@mui/material/FormControl';
+import moment from 'moment';
+import Box from '@mui/material/Box';
+import { DatePicker, Space } from 'antd';
+import 'antd/dist/antd.css'
 import FormHelperText from '@mui/material/FormHelperText';
 import Input from '@mui/material/Input';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -16,6 +20,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { SettingsCellOutlined } from '@mui/icons-material';
+
+import DataRange from "../Components/dateRangePicker.jsx"
+
+
+
+
 
 const Reservation = () => {
 
@@ -27,8 +38,8 @@ const Reservation = () => {
     const [startingDate, setStartingDate] = useState('');
     const [endingDate, setEndingDate] = useState('');
     const [hostNumber, setHostNumber] = useState();
-    const [price, setPrice] = useState()
     const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchAllReservations = async () => {
         const config = {
@@ -40,9 +51,9 @@ const Reservation = () => {
         setReservation(data.data)
     }
 
-    useEffect(() => { fetchAllReservations(setReservation) }, [setReservation])
+    useEffect(() => { fetchAllReservations() }, [])
 
-
+    useEffect(() => { fetchAllReservations() }, [reservation])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -53,11 +64,20 @@ const Reservation = () => {
     };
 
 
-    const newReservation = { roomName: roomName, customerName: customerName, price: price, customerEmail: customerEmail, customerPhoneNumber: customerPhoneNumber }
+    const newReservation = {
+        roomName: roomName,
+        customerName: customerName,
+        customerEmail: customerEmail,
+        customerPhoneNumber: customerPhoneNumber,
+        startingDate: startingDate,
+        endingDate: endingDate,
+        hostNumber: hostNumber
+    }
 
 
     const handleChange = (event) => {
-        setRoomName(event.target.value);
+        const text = event.explicitOriginalTarget
+        setRoomName(text.innerText);
     };
 
     const handleChangeLastName = (event) => {
@@ -72,13 +92,6 @@ const Reservation = () => {
         setCustomerEmail(event.target.value);
     };
 
-    const handleStartingDate = (event) => {
-        setStartingDate(event.target.value);
-    };
-
-    const handleEndingDate = (event) => {
-        setEndingDate(event.target.value);
-    };
 
     const handleHostNumber = (event) => {
         setHostNumber(event.target.value);
@@ -87,26 +100,28 @@ const Reservation = () => {
     function handleAddReservation() {
         try {
             axios.post("/reservation", newReservation)
-
         } catch (error) {
             console.log(error)
         }
     };
 
     const handleSend = () => {
+        setIsLoading(true);
         handleAddReservation();
+        setIsLoading(false);
         handleClose()
     }
     return (
         <div >
             <h1>Reservation List</h1>
+
             <button style={{ fontSize: "35px", color: "blue", cursor: "pointer" }} onClick={handleClickOpen}>add</button>
             {
-                <StickyHeadTable reservation={reservation} />
+                <StickyHeadTable reservation={reservation} setReservation={setReservation} />
 
             }
 
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose} style={{ zIndex: '5' }}>
                 <DialogTitle>Add new reservation</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -158,28 +173,9 @@ const Reservation = () => {
                             label="Name"
                         />
                     </FormControl>
-
-                    <FormControl>
-                        <InputLabel htmlFor="component-outlined">Starting Date</InputLabel>
-                        <OutlinedInput
-                            id="component-outlined"
-                            value={startingDate}
-                            onChange={handleStartingDate}
-                            label="Name"
-                        />
-                    </FormControl>
-
-
-                    <FormControl>
-                        <InputLabel htmlFor="component-outlined">Ending Date</InputLabel>
-                        <OutlinedInput
-                            id="component-outlined"
-                            value={endingDate}
-                            onChange={handleEndingDate}
-                            label="Name"
-                        />
-                    </FormControl>
-
+                    <Space style={{ zIndex: "10" }}>
+                        <DataRange setStartingDate={setStartingDate} setEndingDate={setEndingDate} />
+                    </Space>
                     <FormControl>
                         <InputLabel htmlFor="component-outlined">Host number</InputLabel>
                         <OutlinedInput
