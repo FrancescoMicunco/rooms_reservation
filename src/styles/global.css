@@ -1,0 +1,10 @@
+.pageTitle {
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.pageTitle h1 {
+    font-weight: bold;
+}

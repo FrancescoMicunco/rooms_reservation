@@ -20,9 +20,14 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { SettingsCellOutlined } from '@mui/icons-material';
-
+import "../styles/global.css"
 import DataRange from "../Components/dateRangePicker.jsx"
+// icons
+import AddHomeOutlinedIcon from '@mui/icons-material/AddHomeOutlined';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+
+
 
 
 const Reservation = () => {
@@ -114,10 +119,15 @@ const Reservation = () => {
         handleClose()
     }
     return (
-        <div >
-            <h1>Reservation List</h1>
-
-            <button style={{ fontSize: "35px", color: "blue", cursor: "pointer" }} onClick={handleClickOpen}>add</button>
+        <div>
+            <div class="pageTitle">
+                <h1 >Reservation List</h1>
+                <Tooltip title="add new reservation" arrow placement="left-end">
+                    <IconButton>
+                        <AddHomeOutlinedIcon onClick={handleClickOpen} />
+                    </IconButton>
+                </Tooltip>
+            </div>
             {
                 <StickyHeadTable reservation={reservation} setReservation={setReservation} setSteps={setSteps} />
 
