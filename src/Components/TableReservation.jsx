@@ -7,13 +7,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-
+import moment from 'moment'
 import { Modal } from 'antd';
 import axios from 'axios';
 
 // Date management
 import 'antd/dist/antd.css'
 import DataRange from "../Components/dateRangePicker.jsx"
+
 
 
 
@@ -48,6 +49,9 @@ export default function StickyHeadTable({ reservation, setReservation }) {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [setModalText] = useState('Content of the modal');
+    // const endingDate = moment(selectedReservation?.endingDate).format('YYYY-MM-DD')
+    // const startingDate = moment(selectedReservation?.startingDate).format('YYYY-MM-DD')
+    // let totalDays = moment.duration(startingDate.diff(endingDate)).asDays
 
 
     // Modal to reservation details
@@ -166,6 +170,7 @@ export default function StickyHeadTable({ reservation, setReservation }) {
                 <p>check in  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.startingDate}</span></p>
                 <p>check out  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.endingDate}</span></p>
                 <p>Customer email  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.customerEmail}</span></p>
+                {/* <p>Number of day  -  <span style={{ fontWeight: "bold" }}>{totalDays}</span></p> */}
             </Modal>
         </>
     );
