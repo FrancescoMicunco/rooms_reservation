@@ -49,7 +49,7 @@ const Reservation = () => {
         setReservation(data.data)
     }
 
-    useEffect(() => { fetchAllReservations() }, [])
+    useEffect(() => { fetchAllReservations() }, [steps])
 
 
 
@@ -97,7 +97,11 @@ const Reservation = () => {
 
     function handleAddReservation() {
         try {
-            axios.post("/reservation", newReservation)
+            const res = axios.post("/reservation", newReservation)
+            if (res) {
+                console.log(res.id);
+                setSteps(c => c + 1)
+            } else { console.log("impossible to add new reservation") }
         } catch (error) {
             console.log(error)
         }
@@ -115,7 +119,7 @@ const Reservation = () => {
 
             <button style={{ fontSize: "35px", color: "blue", cursor: "pointer" }} onClick={handleClickOpen}>add</button>
             {
-                <StickyHeadTable reservation={reservation} setReservation={setReservation} />
+                <StickyHeadTable reservation={reservation} setReservation={setReservation} setSteps={setSteps} />
 
             }
 

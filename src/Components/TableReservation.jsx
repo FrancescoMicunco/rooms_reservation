@@ -39,7 +39,7 @@ const columns = [
 ];
 
 
-export default function StickyHeadTable({ reservation, setReservation }) {
+export default function StickyHeadTable({ reservation, setSteps }) {
 
     console.log("reservations from table", reservation)
     const rows = reservation
@@ -65,7 +65,7 @@ export default function StickyHeadTable({ reservation, setReservation }) {
         setTimeout(() => {
             setOpen(false);
             setConfirmLoading(false);
-        }, 500);
+        }, 200);
     };
 
     const handleCancel = () => {
@@ -85,6 +85,7 @@ export default function StickyHeadTable({ reservation, setReservation }) {
 
     const handleSingleReservation = (e) => {
         setSelectedReservation(e)
+        console.log('Reservation selected', selectedReservation, e)
         showModal()
     }
 
@@ -95,7 +96,13 @@ export default function StickyHeadTable({ reservation, setReservation }) {
             header: {}
         }
         try {
-            await axios(config)
+            const res = await axios(config)
+            if (res) {
+                console.log(`The reservation n. ${id} has been deleted successfully`)
+                setSteps(c => c + 1)
+            } else {
+                console.log(`The reservation n. ${id} doesn't exist`)
+            }
         } catch (error) {
             console.log(error)
         }
