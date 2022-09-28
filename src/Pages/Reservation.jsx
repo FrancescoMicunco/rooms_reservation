@@ -25,9 +25,6 @@ import { SettingsCellOutlined } from '@mui/icons-material';
 import DataRange from "../Components/dateRangePicker.jsx"
 
 
-
-
-
 const Reservation = () => {
 
     const [reservation, setReservation] = useState([])
@@ -39,6 +36,7 @@ const Reservation = () => {
     const [endingDate, setEndingDate] = useState('');
     const [hostNumber, setHostNumber] = useState();
     const [open, setOpen] = useState(false);
+    const [steps, setSteps] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchAllReservations = async () => {
@@ -53,7 +51,7 @@ const Reservation = () => {
 
     useEffect(() => { fetchAllReservations() }, [])
 
-    useEffect(() => { fetchAllReservations() }, [reservation])
+
 
     const handleClickOpen = () => {
         setOpen(true);
