@@ -14,6 +14,8 @@ const DataRange = ({ setStartingDate, setEndingDate }) => {
     const dataPickerRange = (dates) => {
         setStartingDate(moment(dates[0]).format(dateFormat));
         setEndingDate(moment(dates[1]).format(dateFormat))
+        let diff = dates[1].diff(dates[0], 'days')
+        console.log("diff days", diff)
     }
     return (
         <div>
