@@ -124,7 +124,7 @@ const Reservation = () => {
                 <h1 >Reservation List</h1>
                 <Tooltip title="add new reservation" arrow placement="left-end">
                     <IconButton>
-                        <AddHomeOutlinedIcon onClick={handleClickOpen} />
+                        <AddHomeOutlinedIcon style={{ color: "#1976d2" }} onClick={handleClickOpen} />
                     </IconButton>
                 </Tooltip>
             </div>
