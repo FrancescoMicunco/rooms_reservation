@@ -39,6 +39,7 @@ const Reservation = () => {
     const [startingDate, setStartingDate] = useState('');
     const [endingDate, setEndingDate] = useState('');
     const [hostNumber, setHostNumber] = useState();
+    const [isState, setIsState] = useState(["pending", "base", "confirmed"])
     const [open, setOpen] = useState(false);
     const [steps, setSteps] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
@@ -103,7 +104,6 @@ const Reservation = () => {
         try {
             const res = axios.post("/reservation", newReservation)
             if (res) {
-                console.log(res.id);
                 setSteps(c => c + 1)
             } else { console.log("impossible to add new reservation") }
         } catch (error) {

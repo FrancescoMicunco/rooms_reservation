@@ -14,6 +14,11 @@ const reservationSchema = new Schema({
     startingDate: { type: "date", required: true },
     endingDate: { type: "date", required: true },
     hostNumber: { type: "number", required: true },
+    isState: {
+        type: "string",
+        required: true,
+        enum: ["pending", "confirmed", "base"],
+    },
     // price: { type: "number", required: true },
 });
 

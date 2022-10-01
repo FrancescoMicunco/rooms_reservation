@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import { deleteReservation } from '../utility/functions.js'
+
+
 import moment from 'moment';
 // import table from antd
 import { SearchOutlined } from "@ant-design/icons";
@@ -169,6 +171,13 @@ export default function StickyHeadTable({ reservation, setSteps }) {
             render: ((date) => getFullDate(date)),
             sorter: (a, b) => moment(a.endingDate) - moment(b.endingDate),
             sortDirections: ["descend", "ascend"],
+        },
+        {
+            title: "State",
+            dataIndex: "isState",
+            key: "isState",
+
+
         },
         {
             title: "Action",
