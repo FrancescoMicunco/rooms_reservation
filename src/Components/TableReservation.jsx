@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { deleteReservation } from '../utility/functions.js'
+import moment from 'moment';
 // import table from antd
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table } from "antd";
@@ -17,13 +18,18 @@ export default function StickyHeadTable({ reservation, setSteps }) {
     const searchInput = useRef(null);
 
     const rows = reservation;
-
+    const endDate = moment(reservation.endingDate).format('YYYY-MM-DD')
 
     // function for the data table
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
+    };
+
+    const getFullDate = (date) => {
+        const dateAndTime = date.split('T');
+        return dateAndTime[0].split('-').reverse().join('-');
     };
 
     const handleReset = (clearFilters) => {
@@ -151,7 +157,8 @@ export default function StickyHeadTable({ reservation, setSteps }) {
             dataIndex: "startingDate",
             key: "startingDate",
             ...getColumnSearchProps("startingDate"),
-            sorter: (a, b) => a.startingDate.length - b.startingDate.length,
+            render: ((date) => getFullDate(date)),
+            sorter: (a, b) => moment(a.startingDate) - moment(b.startingDate),
             sortDirections: ["descend", "ascend"],
         },
         {
@@ -159,7 +166,8 @@ export default function StickyHeadTable({ reservation, setSteps }) {
             dataIndex: "endingDate",
             key: "endingDate",
             ...getColumnSearchProps("endingDate"),
-            sorter: (a, b) => a.endingDate.length - b.endingDate.length,
+            render: ((date) => getFullDate(date)),
+            sorter: (a, b) => moment(a.endingDate) - moment(b.endingDate),
             sortDirections: ["descend", "ascend"],
         },
         {
