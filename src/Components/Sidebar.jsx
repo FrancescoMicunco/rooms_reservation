@@ -20,19 +20,19 @@ const Sidebar = ({ setItem }) => {
             <table>
                 <tbody>
                     <tr onClick={handleEvent}>
-                        <td><BookOnlineIcon style={{ fontSize: '30px' }} /></td>
+                        <td><BookOnlineIcon style={{ fontSize: '30px', cursor: "pointer" }} /></td>
                         <td className='textSidebar'>Reservation</td>
                     </tr>
                     <tr onClick={handleEvent}>
-                        <td><HowToRegIcon style={{ fontSize: '30px' }} /></td>
+                        <td><HowToRegIcon style={{ fontSize: '30px', cursor: "pointer" }} /></td>
                         <td className='textSidebar'>Registration</td>
                     </tr>
                     <tr onClick={handleEvent}>
-                        <td><ManageAccountsIcon style={{ fontSize: '30px' }} /></td>
+                        <td><ManageAccountsIcon style={{ fontSize: '30px', cursor: "pointer" }} /></td>
                         <td className='textSidebar'>Management</td>
                     </tr>
                     <tr onClick={handleEvent}>
-                        <td><SettingsIcon style={{ fontSize: '30px' }} /></td>
+                        <td><SettingsIcon style={{ fontSize: '30px', cursor: "pointer" }} /></td>
                         <td className='textSidebar'>Settings</td>
                     </tr>
                 </tbody>

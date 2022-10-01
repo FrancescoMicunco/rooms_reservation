@@ -19,4 +19,5 @@ table {
     padding-left: 7%;
     text-align: left;
     font-weight: bold;
+    cursor: pointer;
 }
