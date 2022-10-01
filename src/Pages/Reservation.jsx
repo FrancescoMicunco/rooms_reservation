@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import FormControl from '@mui/material/FormControl';
 import moment from 'moment';
-import Box from '@mui/material/Box';
 import { DatePicker, Space } from 'antd';
 import 'antd/dist/antd.css'
 import FormHelperText from '@mui/material/FormHelperText';
@@ -133,7 +132,7 @@ const Reservation = () => {
 
             }
 
-            <Dialog open={open} onClose={handleClose} style={{ zIndex: '5' }}>
+            <Dialog open={open} onClose={handleClose} style={{ zIndex: '5', display: 'block' }}>
                 <DialogTitle>Add new reservation</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -146,7 +145,7 @@ const Reservation = () => {
                             id="select_roomName"
                             value={roomName}
                             onChange={handleChange}
-                            autoWidth
+                            style={{ width: '80px' }}
                             label="Room Name"
                         ><MenuItem value="">
                                 <em>None</em>

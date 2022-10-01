@@ -8,3 +8,15 @@
 .pageTitle h1 {
     font-weight: bold;
 }
+
+
+/* see in Reservation modal at line 142 */
+
+.css-1nrlq1o-MuiFormControl-root {
+    display: block;
+    margin-bottom: 20px
+}
+
+.MuiInputBase-root-MuiOutlinedInput-root {
+    margin-bottom: 20px
+}
