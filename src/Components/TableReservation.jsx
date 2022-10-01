@@ -1,184 +1,189 @@
-import React, { useState } from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import moment from 'moment'
-import { Modal } from 'antd';
-import axios from 'axios';
+import React, { useState, useRef } from "react";
+import { deleteReservation } from '../utility/functions.js'
+// import table from antd
+import { SearchOutlined } from "@ant-design/icons";
+import { Button, Input, Space, Table } from "antd";
+import Highlighter from "react-highlight-words";
+import "antd/dist/antd.css";
 
-// Date management
-import 'antd/dist/antd.css'
-import DataRange from "../Components/dateRangePicker.jsx"
-
-
-
-
-const columns = [
-    { id: "roomName", label: "Room Name", minWidth: 170 },
-
-    {
-        id: "startingDate",
-        label: "From",
-        minWidth: 170,
-        align: "right",
-        format: (value) => value.toLocaleTimeString("it-IT"),
-    },
-    {
-        id: "endingDate",
-        label: "To",
-        minWidth: 170,
-        align: "right",
-        format: (value) => value.toLocaleString("en-US"),
-    },
-
-];
+// icons
+import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 
 
 export default function StickyHeadTable({ reservation, setSteps }) {
+    const [searchText, setSearchText] = useState("");
+    const [searchedColumn, setSearchedColumn] = useState("");
+    const searchInput = useRef(null);
 
-    console.log("reservations from table", reservation)
-    const rows = reservation
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [selectedReservation, setSelectedReservation] = React.useState({})
-    const [open, setOpen] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const [setModalText] = useState('Content of the modal');
-    // const endingDate = moment(selectedReservation?.endingDate).format('YYYY-MM-DD')
-    // const startingDate = moment(selectedReservation?.startingDate).format('YYYY-MM-DD')
-    // let totalDays = moment.duration(startingDate.diff(endingDate)).asDays
+    const rows = reservation;
 
 
-    // Modal to reservation details
-    const showModal = () => {
-        setOpen(true);
+    // function for the data table
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
     };
 
-    const handleOk = () => {
-        setModalText('The modal will be closed after two seconds');
-        setConfirmLoading(true);
-        setTimeout(() => {
-            setOpen(false);
-            setConfirmLoading(false);
-        }, 200);
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText("");
     };
 
-    const handleCancel = () => {
-        let id = selectedReservation._id
-        deleteReservation(id)
-        setOpen(false);
-    };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({
+            setSelectedKeys,
+            selectedKeys,
+            confirm,
+            clearFilters,
+        }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) =>
+                        setSelectedKeys(e.target.value ? [e.target.value] : [])
+                    }
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: "block",
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            confirm({
+                                closeDropdown: false,
+                            });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
+                        }}
+                    >
+                        Filter
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? "#1890ff" : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
-
-    const handleSingleReservation = (e) => {
-        setSelectedReservation(e)
-        console.log('Reservation selected', selectedReservation, e)
-        showModal()
-    }
-
-    async function deleteReservation(id) {
-        const config = {
-            method: 'delete',
-            url: `http://localhost:3001/reservation/${id}`,
-            header: {}
-        }
-        try {
-            const res = await axios(config)
-            if (res) {
-                console.log(`The reservation n. ${id} has been deleted successfully`)
-                setSteps(c => c + 1)
-            } else {
-                console.log(`The reservation n. ${id} doesn't exist`)
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => {
+                    searchInput.current?.select();
+                }, 100);
             }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: "#ffc069",
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ""}
+                />
+            ) : (
+                text
+            ),
+    });
 
+    const columns = [
+        {
+            title: "Room Name",
+            dataIndex: "roomName",
+            key: "roomName",
+            width: "30%",
+            ...getColumnSearchProps("roomName"),
+            sorter: (a, b) => a.roomName.length - b.roomName.length,
+            sortDirections: ["descend", "ascend"],
+        },
+        {
+            title: "Customer Name",
+            dataIndex: "customerName",
+            key: "customerName",
+            width: "30%",
+            ...getColumnSearchProps("customerName"),
+            sorter: (a, b) => a.customerName.length - b.customerName.length,
+            sortDirections: ["descend", "ascend"],
+        },
+        {
+            title: "From",
+            dataIndex: "startingDate",
+            key: "startingDate",
+            ...getColumnSearchProps("startingDate"),
+            sorter: (a, b) => a.startingDate.length - b.startingDate.length,
+            sortDirections: ["descend", "ascend"],
+        },
+        {
+            title: "To",
+            dataIndex: "endingDate",
+            key: "endingDate",
+            ...getColumnSearchProps("endingDate"),
+            sorter: (a, b) => a.endingDate.length - b.endingDate.length,
+            sortDirections: ["descend", "ascend"],
+        },
+        {
+            title: "Action",
+            dataIndex: "action",
+            key: "action",
+            render: (text, record) => (
+                <div style={{ display: 'flex' }}>
+                    <DeleteForeverOutlinedIcon style={{ color: "red" }} onClick={() => {
+                        const id = record._id;
+                        deleteReservation(id, setSteps)
+
+                    }} />
+
+                    <UpdateOutlinedIcon style={{ color: "green" }} onClick={() => {
+                        console.log(record);
+                    }} />
+
+                </div>
+            ),
+        },
+    ];
 
     return (
-        <>
-            <DataRange />
-
-            <Paper sx={{ width: "50vw", overflow: "hidden" }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow> {columns.map((column) =>
-                            (<TableCell
-                                key={column.id}
-                                align={column.align}
-                                style={
-                                    { minWidth: column.minWidth }
-                                } >  {column.label}
-                            </TableCell>
-                            ))
-                            }  </TableRow> </TableHead >
-                        <TableBody>  {
-                            rows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => {
-                                    return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} onClick={() => handleSingleReservation(row)} key={row.code}
-
-                                        >  {
-                                                columns?.map((column) => {
-                                                    const value = row[column.id];
-                                                    return (
-                                                        <TableCell key={column.id}
-                                                            align={column.align} >  {
-                                                                column.format && typeof value === "number" ?
-                                                                    column.format(value) :
-                                                                    value
-                                                            }  </TableCell>
-                                                    );
-                                                })
-                                            }  </TableRow>
-                                    );
-                                })
-                        }  </TableBody> </Table >
-                </TableContainer>
-                <TablePagination rowsPerPageOptions={
-                    [10, 25, 100]
-                }
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-
-
-            <Modal
-                title="Reservation Detail"
-                open={open}
-                onOk={handleOk}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-            >
-                <p>Room Name  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.roomName}</span></p>
-                <p>Customer Name  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.customerName}</span></p>
-                <p>Host  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.hostNumber}</span></p>
-                <p>check in  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.startingDate}</span></p>
-                <p>check out  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.endingDate}</span></p>
-                <p>Customer email  -  <span style={{ fontWeight: "bold" }}>{selectedReservation?.customerEmail}</span></p>
-                {/* <p>Number of day  -  <span style={{ fontWeight: "bold" }}>{totalDays}</span></p> */}
-            </Modal>
-        </>
+        <Table columns={columns} dataSource={rows} />
     );
 }
