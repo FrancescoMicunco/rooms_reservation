@@ -12,11 +12,13 @@ import "antd/dist/antd.css";
 // icons
 import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export default function StickyHeadTable({ reservation, setSteps }) {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
+    const [isShown, setIsShown] = useState(false)
     const searchInput = useRef(null);
 
     const rows = reservation;
@@ -176,8 +178,6 @@ export default function StickyHeadTable({ reservation, setSteps }) {
             title: "State",
             dataIndex: "isState",
             key: "isState",
-
-
         },
         {
             title: "Action",
@@ -198,6 +198,32 @@ export default function StickyHeadTable({ reservation, setSteps }) {
                 </div>
             ),
         },
+        {
+            title: "Show details",
+            dataIndex: "showDetails",
+            key: "showDetails",
+            render: (text, record) => (
+                <div style={{ display: 'flex' }}>
+                    {
+                        isShown ?
+                            (<VisibilityIcon onClick={() => {
+                                setIsShown(false)
+                                const id = record._id;
+                                console.log("details showed", id)
+                            }} />)
+                            : (<VisibilityOffIcon
+                                onClick={() => {
+                                    setIsShown(true)
+                                    const id = record._id;
+                                    console.log("details showed", id)
+                                }} />)
+                    }
+
+
+                </div>
+            ),
+        },
+
     ];
 
     return (

@@ -20,3 +20,10 @@
 .MuiInputBase-root-MuiOutlinedInput-root {
     margin-bottom: 20px
 }
+
+
+/* style icons in TableReservation */
+
+.tableIcon {
+    color: gray
+}
