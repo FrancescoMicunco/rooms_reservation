@@ -16,7 +16,7 @@ const reservationSchema = new Schema({
     hostNumber: { type: "number", required: true },
     isState: {
         type: "string",
-        required: true,
+        required: false,
         enum: ["pending", "confirmed", "base"],
     },
     // price: { type: "number", required: true },

@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 import { deleteReservation } from '../utility/functions.js'
-
-
 import moment from 'moment';
+
 // import table from antd
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Table } from "antd";
+import { Button, Input, Space, Table, Modal } from "antd";
 import Highlighter from "react-highlight-words";
 import "antd/dist/antd.css";
 
@@ -14,12 +13,37 @@ import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+const { confirm } = Modal;
 
 export default function StickyHeadTable({ reservation, setSteps }) {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const [isShown, setIsShown] = useState(false)
     const searchInput = useRef(null);
+    const [open, setOpen] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [modalText, setModalText] = useState('Content of the modal');
+
+    const showModal = () => {
+        setOpen(true);
+    };
+
+    const handleOk = () => {
+        setModalText('The modal will be closed after two seconds');
+        setConfirmLoading(true);
+        setTimeout(() => {
+            setOpen(false);
+            setConfirmLoading(false);
+        }, 2000);
+    };
+
+    const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setOpen(false);
+    };
+
 
     const rows = reservation;
     const endDate = moment(reservation.endingDate).format('YYYY-MM-DD')
@@ -185,13 +209,14 @@ export default function StickyHeadTable({ reservation, setSteps }) {
             key: "action",
             render: (text, record) => (
                 <div style={{ display: 'flex' }}>
-                    <DeleteForeverOutlinedIcon style={{ color: "red" }} onClick={() => {
+                    <DeleteForeverOutlinedIcon style={{ color: "red", cursor: "pointer" }} onClick={() => {
                         const id = record._id;
-                        deleteReservation(id, setSteps)
+                        showModal(id)
+                        // deleteReservation(id, setSteps)
 
                     }} />
 
-                    <UpdateOutlinedIcon style={{ color: "green" }} onClick={() => {
+                    <UpdateOutlinedIcon style={{ color: "green", cursor: "pointer" }} onClick={() => {
                         console.log(record);
                     }} />
 
@@ -203,7 +228,7 @@ export default function StickyHeadTable({ reservation, setSteps }) {
             dataIndex: "showDetails",
             key: "showDetails",
             render: (text, record) => (
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', cursor: "pointer" }}>
                     {
                         isShown ?
                             (<VisibilityIcon onClick={() => {
@@ -218,15 +243,22 @@ export default function StickyHeadTable({ reservation, setSteps }) {
                                     console.log("details showed", id)
                                 }} />)
                     }
-
-
                 </div>
             ),
         },
-
     ];
 
     return (
-        <Table columns={columns} dataSource={rows} />
+        <>
+            <Table columns={columns} dataSource={rows} />
+            <Modal
+                title="Title"
+                open={open}
+                onOk={handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={handleCancel}
+            >
+                <p>{modalText}</p>
+            </Modal></>
     );
 }
