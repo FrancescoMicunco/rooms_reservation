@@ -1,12 +1,16 @@
-import React, { useState, useRef } from "react";
-import { deleteReservation } from '../utility/functions.js'
+import React, { useState, useRef, useEffect } from "react";
+import { fetchAllReservations } from '../utility/functions.js'
 import moment from 'moment';
+import axios from 'axios';
 
 // import table from antd
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Modal } from "antd";
 import Highlighter from "react-highlight-words";
 import "antd/dist/antd.css";
+
+// navigate
+import { useNavigate, Link } from "react-router-dom"
 
 // icons
 import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
@@ -17,36 +21,58 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
 
-export default function StickyHeadTable({ reservation, setSteps }) {
+export default function StickyHeadTable({ reservation, setReservation }) {
     const [searchText, setSearchText] = useState("");
     const [searchedColumn, setSearchedColumn] = useState("");
     const [isShown, setIsShown] = useState(false)
+    const [steps, setSteps] = useState(0)
     const searchInput = useRef(null);
-    const [open, setOpen] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState('Content of the modal');
 
-    const showModal = () => {
-        setOpen(true);
+    let navigate = useNavigate()
+
+    useEffect(() => { fetchAllReservations(setReservation) }, [steps])
+
+    async function deleteReservation(id) {
+        const config = {
+            method: "delete",
+            url: `http://localhost:3001/reservation/${id}`,
+            header: {},
+        };
+        try {
+            const res = await axios(config);
+            if (res) {
+                console.log(`The reservation n. ${id} has been deleted successfully`);
+                setSteps((c) => c + 1);
+            } else {
+                console.log(`The reservation n. ${id} doesn't exist`);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const showDeleteConfirm = (id, setSteps = steps) => {
+        confirm({
+            title: 'Are you sure delete this task?',
+            icon: <ExclamationCircleOutlined />,
+            content: ` `,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+
+            onOk() {
+                deleteReservation(id, setSteps)
+            },
+
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     };
 
-    const handleOk = () => {
-        setModalText('The modal will be closed after two seconds');
-        setConfirmLoading(true);
-        setTimeout(() => {
-            setOpen(false);
-            setConfirmLoading(false);
-        }, 2000);
-    };
-
-    const handleCancel = () => {
-        console.log('Clicked cancel button');
-        setOpen(false);
-    };
-
+    // end alert delete modal 
 
     const rows = reservation;
-    const endDate = moment(reservation.endingDate).format('YYYY-MM-DD')
 
     // function for the data table
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -64,7 +90,6 @@ export default function StickyHeadTable({ reservation, setSteps }) {
         clearFilters();
         setSearchText("");
     };
-
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({
@@ -166,7 +191,7 @@ export default function StickyHeadTable({ reservation, setSteps }) {
             title: "Room Name",
             dataIndex: "roomName",
             key: "roomName",
-            width: "30%",
+            width: "20%",
             ...getColumnSearchProps("roomName"),
             sorter: (a, b) => a.roomName.length - b.roomName.length,
             sortDirections: ["descend", "ascend"],
@@ -175,7 +200,7 @@ export default function StickyHeadTable({ reservation, setSteps }) {
             title: "Customer Name",
             dataIndex: "customerName",
             key: "customerName",
-            width: "30%",
+            width: "35%",
             ...getColumnSearchProps("customerName"),
             sorter: (a, b) => a.customerName.length - b.customerName.length,
             sortDirections: ["descend", "ascend"],
@@ -211,9 +236,7 @@ export default function StickyHeadTable({ reservation, setSteps }) {
                 <div style={{ display: 'flex' }}>
                     <DeleteForeverOutlinedIcon style={{ color: "red", cursor: "pointer" }} onClick={() => {
                         const id = record._id;
-                        showModal(id)
-                        // deleteReservation(id, setSteps)
-
+                        showDeleteConfirm(id)
                     }} />
 
                     <UpdateOutlinedIcon style={{ color: "green", cursor: "pointer" }} onClick={() => {
@@ -234,15 +257,27 @@ export default function StickyHeadTable({ reservation, setSteps }) {
                             (<VisibilityIcon onClick={() => {
                                 setIsShown(false)
                                 const id = record._id;
-                                console.log("details showed", id)
+
                             }} />)
                             : (<VisibilityOffIcon
                                 onClick={() => {
                                     setIsShown(true)
                                     const id = record._id;
-                                    console.log("details showed", id)
+                                    navigate("/DetailReservation", { state: { record } })
                                 }} />)
                     }
+                </div>
+            ),
+        },
+        {
+            title: "",
+            dataIndex: "registration",
+            key: "registration",
+            render: (text, record) => (
+                <div>
+                    <Button onClick={() => {
+                        navigate("/registration", { state: { record } })
+                    }}>registration</Button>
                 </div>
             ),
         },
@@ -251,14 +286,7 @@ export default function StickyHeadTable({ reservation, setSteps }) {
     return (
         <>
             <Table columns={columns} dataSource={rows} />
-            <Modal
-                title="Title"
-                open={open}
-                onOk={handleOk}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-            >
-                <p>{modalText}</p>
-            </Modal></>
+
+        </>
     );
 }

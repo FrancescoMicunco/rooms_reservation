@@ -24,8 +24,7 @@ function App() {
                     <Route exact path="/rooms" element={<Rooms />} />
                     <Route exact path="/dashboard" element={<Dashboard />} />
                     <Route exact path="/rooms/:id" element={<SingleRoom />} />
-                    <Route exact path="/reservation/:id" element={<DetailReservation />} />
-                    {/* <Route exact path="/registration/:id" element={<DetailRegistration />} /> */}
+                    <Route exact path="/detailreservation" element={<DetailReservation />} />
                     <Route exact path="/registration" element={<Registration />} />
                     <Route exact path="*" element={<ErrorPage />} />
                 </Routes>

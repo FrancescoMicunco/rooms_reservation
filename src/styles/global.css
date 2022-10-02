@@ -27,3 +27,30 @@
 .tableIcon {
     color: gray
 }
+
+
+/* field on detail reservation */
+
+.detres {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgb(227, 227, 227);
+    margin-left: 20px
+}
+
+.showdata {
+    padding-left: 30px;
+    text-align: left;
+    color: rgb(167, 167, 167);
+    background-color: rgba(6, 12, 73, 0.829);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    box-shadow: 5px 5px 10px;
+    width: 30%;
+    min-width: max-content;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Lato;
+    font-size: 22px;
+}

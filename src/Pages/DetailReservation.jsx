@@ -1,13 +1,26 @@
 import React from 'react'
-import { useParams } from 'react-router-dom';
-
-
+import { useLocation } from 'react-router-dom';
+import '../styles/global.css'
 
 
 const DetailReservation = () => {
-    let params = useParams();
-    // let reservationSelected = reservation?.find(res => res._id === params._id)
-    return (<h1>detail reservation</h1>);
+    let location = useLocation();
+    const data = location.state.record
+    return (
+        <div>
+            <h1 style={{ fontFamily: "Lato", marginTop: "30px" }}>DETAIL RESERVATION</h1>
+            <div class="showdata" >
+                <p>Customer Name  <span class="detres" >{data.customerName}</span></p>
+                <p>Email <span class="detres" >{data.customerEmail}</span></p>
+                <p>Phone <span class="detres" >{data.customerPhoneNumber}</span></p>
+                <p>Host Number <span class="detres" >{data.hostNumber}</span></p>
+                <p>From <span class="detres" >{data.startingDate}</span></p>
+                <p>To <span class="detres" >{data.endingDate}</span></p>
+                <p>Total Days</p>
+                <p>Totale Amount</p>
+            </div>
+        </div>
+    );
 }
 
 export default DetailReservation;
