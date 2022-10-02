@@ -1,13 +1,21 @@
 import React from 'react';
-// import { ThemeProvider, createMuiTheme } from '@material-ui/styles';
-// import { orange, purple } from '@material-ui/core/colors';
-// import TextField from '@material-ui/core/TextField';
-// import { roundTextFieldStylesHook } from '@mui-treasury/styles/textField/round';
+import { useLocation } from 'react-router-dom'
 
 
 
-const Registration = () => (
-    <h1>Reservation form</h1>
-);
+const Registration = () => {
+    const location = useLocation();
+    const data = location.state.record
+    console.log("Location from stickyTable", data._id);
+    return (
+        <>
+            < h1 > Reservation form</h1 >
+            <p>{location.state.customerName}</p>
+        </>
+    )
+
+}
+
+
 
 export default Registration;

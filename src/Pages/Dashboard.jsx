@@ -16,7 +16,7 @@ const Dashboard = () => {
                 {
                     item === "Reservation" ?
                         <Reservation /> : item === "Registration" ? <Registration /> : item === "Management" ? <Management />
-                            : <Settings />}
+                            : <Reservation />}
             </div>
         </div>
     );

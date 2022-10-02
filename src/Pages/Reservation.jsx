@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { fetchAllReservations } from '../utility/functions.js'
 import FormControl from '@mui/material/FormControl';
 import { Space } from 'antd';
 import 'antd/dist/antd.css'
@@ -40,18 +41,9 @@ const Reservation = () => {
     const [steps, setSteps] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
 
-    const fetchAllReservations = async () => {
-        const config = {
-            method: 'get',
-            url: 'http://localhost:3001/reservation',
-            headers: {}
-        };
-        const data = await axios(config)
-        setReservation(data.data)
-    }
 
-    useEffect(() => { fetchAllReservations() }, [steps])
 
+    useEffect(() => { fetchAllReservations(setReservation) }, [steps])
 
 
     const handleClickOpen = () => {
@@ -125,7 +117,6 @@ const Reservation = () => {
             </div>
             {
                 <StickyHeadTable reservation={reservation} setReservation={setReservation} setSteps={setSteps} />
-
             }
 
             <Dialog open={open} onClose={handleClose} style={{ zIndex: '5', display: 'block' }}>
@@ -141,10 +132,10 @@ const Reservation = () => {
                             id="select_roomName"
                             value={roomName}
                             onChange={handleChange}
-                            style={{ width: '80px' }}
+                            style={{ minWidth: '80px' }}
                             label="Room Name"
                         ><MenuItem value="">
-                                <em>None</em>
+                                <em>none</em>
                             </MenuItem>
                             <MenuItem value={10}>MARGHERITA</MenuItem>
                             <MenuItem value={20}>GIGLIO</MenuItem>
@@ -198,7 +189,6 @@ const Reservation = () => {
                     <Button onClick={handleSend}>Send</Button>
                 </DialogActions>
             </Dialog>
-
         </div >
     )
 }

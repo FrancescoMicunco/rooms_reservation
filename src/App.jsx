@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
 import SingleRoom from './Pages/SingleRoom'
+import Registration from './Pages/Registration'
 import DetailReservation from './Pages/DetailReservation.jsx'
 import ErrorPage from './Pages/ErrorPage'
 import Rooms from "./Pages/Rooms";
@@ -24,6 +25,8 @@ function App() {
                     <Route exact path="/dashboard" element={<Dashboard />} />
                     <Route exact path="/rooms/:id" element={<SingleRoom />} />
                     <Route exact path="/reservation/:id" element={<DetailReservation />} />
+                    {/* <Route exact path="/registration/:id" element={<DetailRegistration />} /> */}
+                    <Route exact path="/registration" element={<Registration />} />
                     <Route exact path="*" element={<ErrorPage />} />
                 </Routes>
             </BrowserRouter >

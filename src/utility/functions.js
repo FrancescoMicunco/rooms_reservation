@@ -1,5 +1,15 @@
 import axios from "axios";
 
+export async function fetchAllReservations(setReservation) {
+    const config = {
+        method: "get",
+        url: "http://localhost:3001/reservation",
+        headers: {},
+    };
+    const data = await axios(config);
+    setReservation(data.data);
+}
+
 export async function deleteReservation(id, setSteps) {
     const config = {
         method: "delete",
