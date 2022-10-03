@@ -20,6 +20,6 @@ const reservationSchema = new Schema({
         enum: ["pending", "confirmed", "base"],
     },
     // price: { type: "number", required: true },
-});
+}, { timestamp: true });
 
 export default model("reservation", reservationSchema);
