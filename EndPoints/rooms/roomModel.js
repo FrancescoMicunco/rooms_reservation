@@ -18,7 +18,7 @@ const roomSchema = new Schema({
     handicapHallowed: { type: String, required: true },
     small_pic: [],
     maxHost: { type: Number, required: true },
-    currentBookingState: [],
+    reservation: [{ type: Schema.Types.ObjectId, ref: "reservation" }],
 }, { timestamp: true });
 
 export default model("rooms", roomSchema);

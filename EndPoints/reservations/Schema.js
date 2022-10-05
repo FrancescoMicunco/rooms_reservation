@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const reservationSchema = new Schema({
-    roomId: { type: "string", required: false },
+    roomId: { type: "number", required: false },
     roomName: { type: "string", required: true },
     customerName: { type: "string", required: true },
     customerEmail: { type: "string", required: true },
