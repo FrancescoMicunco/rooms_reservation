@@ -1,8 +1,9 @@
 import express from "express";
 import reservationSchema from "../reservations/Schema.js";
+import { reservationValidator } from "../../Middleware/validation.js";
 import Rooms from "../rooms/roomModel.js";
 import q2m from "query-to-mongo";
-import { body, checkSchema, validationResult } from "express-validator";
+import { body, check, validationResult } from "express-validator";
 import moment from "moment";
 import { badRequestHandler } from "../../Middleware/errorHadler.js";
 
@@ -10,44 +11,36 @@ const router = express.Router();
 
 router
     .route("/")
-    .post(
-        // body("customerEmail").isEmail(),
-        // checkSchema({
-        //     customerEmail: {
-        //         isEmail: { bail: true },
-        //         isLength: {
-        //             errorMessage: "email must be at least 9 chars long",
-        //             option: { min: 9 },
-        //         },
-        //     },
-        // }),
-        async(req, res, next) => {
-            try {
-                const reservation = await reservationSchema(req.body);
-                console.log("reservation", reservation);
-                if (res) {
-                    const newReservation = await reservation.save();
-                    res.status(201).send(newReservation._id);
-                    console.log(newReservation.roomId);
-                    // const temp = Rooms.findOne({ _id: newReservation.roomId[0] });
-
-                    // temp.currentBookingState.push({
-                    //     bookingId: reservation._id,
-                    //     customerName: reservation.customerName,
-                    //     fromdate: moment(reservation.startingDate).format("DD-MM-YYYY"),
-                    //     toDate: moment(reservation.endingDate).format("DD-MM-YYYY"),
-                    //     status: "booked",
-                    // });
-                    // temp.save();
-                } else {
-                    next(badRequestHandler);
-                }
-            } catch (error) {
-                res.status(400).json({ error: error });
-                next(error);
-            }
+    .post(reservationValidator, async(req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
         }
-    )
+        try {
+            const reservation = await reservationSchema(req.body);
+            console.log("reservation", reservation);
+            if (res) {
+                const newReservation = await reservation.save();
+                res.status(201).send(newReservation._id);
+                console.log(newReservation.roomId);
+                // const temp = Rooms.findOne({ _id: newReservation.roomId[0] });
+
+                // temp.currentBookingState.push({
+                //     bookingId: reservation._id,
+                //     customerName: reservation.customerName,
+                //     fromdate: moment(reservation.startingDate).format("DD-MM-YYYY"),
+                //     toDate: moment(reservation.endingDate).format("DD-MM-YYYY"),
+                //     status: "booked",
+                // });
+                // temp.save();
+            } else {
+                next(badRequestHandler);
+            }
+        } catch (error) {
+            res.status(400).json({ error: error });
+            next(error);
+        }
+    })
 
 .get(async(req, res, next) => {
     try {
