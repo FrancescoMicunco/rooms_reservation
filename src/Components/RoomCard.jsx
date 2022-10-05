@@ -13,7 +13,7 @@ const CardRoom = ({ room }) => {
                             style={{ display: "flex", margin: "2%", boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" }}
                             onClick={() => navigate('/rooms/' + room?.name)}>
                             <div>
-                                <img src={room.small_pic} height="300" width="400" alt="" />
+                                <img src={room.small_pic[0]} height="300" width="400" alt="" />
                             </div>
                             <div style={{ padding: "2%" }}>
                                 <h3 style={{ fontFamily: "Roboto", fontSize: "30px", color: "indigo" }}>
