@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { fetchAllReservations } from '../utility/functions.js'
+import moment from 'moment';
+import { fetchAllReservations, fetchAllRooms } from '../utility/functions.js'
 import FormControl from '@mui/material/FormControl';
 import { Space } from 'antd';
 import 'antd/dist/antd.css'
-import FormHelperText from '@mui/material/FormHelperText';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -16,35 +17,46 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import "../styles/global.css"
 import DataRange from "../Components/dateRangePicker.jsx"
 // icons
 import AddHomeOutlinedIcon from '@mui/icons-material/AddHomeOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
+import "../styles/global.css"
 
 
 
 const Reservation = () => {
 
     const [reservation, setReservation] = useState([])
+    const [rooms, setRooms] = useState([])
     const [roomName, setRoomName] = useState('');
+    const [roomId, setRoomId] = useState()
     const [customerName, setCustomerName] = useState('');
     const [customerEmail, setCustomerEmail] = useState('');
     const [customerPhoneNumber, setCustomerPhoneNumber] = useState('');
-    const [startingDate, setStartingDate] = useState('');
-    const [endingDate, setEndingDate] = useState('');
+    const [startingDate, setStartingDate] = useState();
+    const [endingDate, setEndingDate] = useState();
     const [hostNumber, setHostNumber] = useState();
     const [isState, setIsState] = useState(["pending", "base", "confirmed"])
     const [open, setOpen] = useState(false);
     const [steps, setSteps] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
+    const [totalDays, setTotalDays] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0)
 
 
+    useEffect(() => {
+        fetchAllReservations(setReservation);
+        fetchAllRooms(setRooms);
 
-    useEffect(() => { fetchAllReservations(setReservation) }, [steps])
+    }, [steps])
 
+
+    const roomsNameArray = rooms.map(rname => rname?.name)
+
+    // setRoomId(roomid)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -56,6 +68,7 @@ const Reservation = () => {
 
 
     const newReservation = {
+        // roomId: roomId,
         roomName: roomName,
         customerName: customerName,
         customerEmail: customerEmail,
@@ -67,8 +80,12 @@ const Reservation = () => {
 
 
     const handleChange = (event) => {
-        const text = event.explicitOriginalTarget
-        setRoomName(text.innerText);
+        const text = event.target.textContent
+        setRoomName(text);
+        console.log("roomName", text, roomName, event)
+        let roomid = rooms?.filter(e => e.name === "Margherita")
+        console.log(roomid)
+        setRoomId(roomid)
     };
 
     const handleChangeLastName = (event) => {
@@ -87,6 +104,8 @@ const Reservation = () => {
     const handleHostNumber = (event) => {
         setHostNumber(event.target.value);
     };
+
+
 
     function handleAddReservation() {
         try {
@@ -116,7 +135,9 @@ const Reservation = () => {
                 </Tooltip>
             </div>
             {
-                <StickyHeadTable reservation={reservation} setReservation={setReservation} setSteps={setSteps} />
+                <StickyHeadTable reservation={reservation} setReservation={setReservation} setSteps={setSteps}
+                    totalDays={totalDays}
+                />
             }
 
             <Dialog open={open} onClose={handleClose} style={{ zIndex: '5', display: 'block' }}>
@@ -127,21 +148,20 @@ const Reservation = () => {
                     </DialogContentText>
 
                     <FormControl>
+                        <Space style={{ zIndex: "10" }}>
+                            <DataRange setStartingDate={setStartingDate} setEndingDate={setEndingDate} setTotalDays={setTotalDays} />
+                        </Space>
                         <InputLabel htmlFor="component-outlined">Room name</InputLabel>
-                        <Select
-                            id="select_roomName"
-                            value={roomName}
-                            onChange={handleChange}
-                            style={{ minWidth: '80px' }}
-                            label="Room Name"
-                        ><MenuItem value="">
-                                <em>none</em>
-                            </MenuItem>
-                            <MenuItem value={10}>MARGHERITA</MenuItem>
-                            <MenuItem value={20}>GIGLIO</MenuItem>
-                            <MenuItem value={30}>GIAGGIOLO</MenuItem>
-                            <MenuItem value={40}>PESCO</MenuItem>
-                        </Select>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={roomsNameArray}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Rooms"
+                            />}
+                            onChange={(event) => handleChange(event)
+                            }
+                        />
                     </FormControl>
 
                     <FormControl>
@@ -171,9 +191,7 @@ const Reservation = () => {
                             label="Name"
                         />
                     </FormControl>
-                    <Space style={{ zIndex: "10" }}>
-                        <DataRange setStartingDate={setStartingDate} setEndingDate={setEndingDate} />
-                    </Space>
+
                     <FormControl>
                         <InputLabel htmlFor="component-outlined">Host number</InputLabel>
                         <OutlinedInput

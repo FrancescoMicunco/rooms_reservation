@@ -10,7 +10,7 @@ import Highlighter from "react-highlight-words";
 import "antd/dist/antd.css";
 
 // navigate
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 // icons
 import UpdateOutlinedIcon from "@mui/icons-material/UpdateOutlined";
@@ -73,6 +73,8 @@ export default function StickyHeadTable({ reservation, setReservation }) {
     // end alert delete modal 
 
     const rows = reservation;
+    console.log(rows)
+    // console.log("total days", totalDays)
 
     // function for the data table
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -193,7 +195,7 @@ export default function StickyHeadTable({ reservation, setReservation }) {
             key: "roomName",
             width: "20%",
             ...getColumnSearchProps("roomName"),
-            sorter: (a, b) => a.roomName.length - b.roomName.length,
+            sorter: (a, b) => a?.roomName.length - b?.roomName.length,
             sortDirections: ["descend", "ascend"],
         },
         {
@@ -202,7 +204,7 @@ export default function StickyHeadTable({ reservation, setReservation }) {
             key: "customerName",
             width: "35%",
             ...getColumnSearchProps("customerName"),
-            sorter: (a, b) => a.customerName.length - b.customerName.length,
+            sorter: (a, b) => a?.customerName.length - b?.customerName.length,
             sortDirections: ["descend", "ascend"],
         },
         {
@@ -211,7 +213,7 @@ export default function StickyHeadTable({ reservation, setReservation }) {
             key: "startingDate",
             ...getColumnSearchProps("startingDate"),
             render: ((date) => getFullDate(date)),
-            sorter: (a, b) => moment(a.startingDate) - moment(b.startingDate),
+            sorter: (a, b) => moment(a?.startingDate) - moment(b?.startingDate),
             sortDirections: ["descend", "ascend"],
         },
         {
@@ -220,7 +222,7 @@ export default function StickyHeadTable({ reservation, setReservation }) {
             key: "endingDate",
             ...getColumnSearchProps("endingDate"),
             render: ((date) => getFullDate(date)),
-            sorter: (a, b) => moment(a.endingDate) - moment(b.endingDate),
+            sorter: (a, b) => moment(a?.endingDate) - moment(b?.endingDate),
             sortDirections: ["descend", "ascend"],
         },
         {
