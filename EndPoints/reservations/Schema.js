@@ -3,11 +3,8 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const reservationSchema = new Schema({
-    roomName: {
-        type: "string",
-        required: true,
-        enum: ["MARGHERITA", "GIGLIO", "GIAGGIOLO", "PESCO"],
-    },
+    roomId: { type: "string", required: true },
+    roomName: { type: "string", required: true },
     customerName: { type: "string", required: true },
     customerEmail: { type: "string", required: true },
     customerPhoneNumber: { type: "number", required: true },
@@ -19,7 +16,6 @@ const reservationSchema = new Schema({
         required: false,
         enum: ["pending", "confirmed", "base"],
     },
-    // price: { type: "number", required: true },
 }, { timestamp: true });
 
 export default model("reservation", reservationSchema);
