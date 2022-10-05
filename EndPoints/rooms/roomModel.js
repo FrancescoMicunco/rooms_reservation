@@ -6,7 +6,7 @@ const roomSchema = new Schema({
         type: String,
         required: true,
     },
-    // reservation: [{ type: Schema.Types.String, ref: "reservation" }],
+    // id: { type: "number", required: true },
     description: {
         type: String,
         required: true,
