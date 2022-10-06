@@ -22,17 +22,18 @@ router
             if (res) {
                 const newReservation = await reservation.save();
                 res.status(201).send(newReservation._id);
-                console.log(newReservation.roomId);
-                // const temp = Rooms.findOne({ _id: newReservation.roomId[0] });
+                console.log("new reservation roomId", newReservation.roomId);
+                const temp = await Rooms.findById(newReservation.roomId);
+                console.log("temp", temp);
 
-                // temp.currentBookingState.push({
-                //     bookingId: reservation._id,
-                //     customerName: reservation.customerName,
-                //     fromdate: moment(reservation.startingDate).format("DD-MM-YYYY"),
-                //     toDate: moment(reservation.endingDate).format("DD-MM-YYYY"),
-                //     status: "booked",
-                // });
-                // temp.save();
+                temp.currentBookingState.push({
+                    bookingId: reservation._id,
+                    customerName: reservation.customerName,
+                    fromdate: moment(reservation.startingDate).format("DD-MM-YYYY"),
+                    toDate: moment(reservation.endingDate).format("DD-MM-YYYY"),
+                    status: "booked",
+                });
+                temp.save();
             } else {
                 next(badRequestHandler);
             }
@@ -65,22 +66,23 @@ router
             next(error);
         }
     })
-    .delete(async(req, res, next) => {
-        try {
-            const reservation = await reservationSchema.findByIdAndDelete(
-                req.params.id
-            );
-            console.log("Reservation correctly deleted!");
-            if (reservation) {
-                res.status(201).send("Reservation Deleted!");
-            } else {
-                res.send("Reservation Not Found");
-            }
-        } catch (error) {
-            res.status(400).json({ error: error });
-            next(error);
+
+.delete(async(req, res, next) => {
+    try {
+        const reservation = await reservationSchema.findByIdAndDelete(
+            req.params.id
+        );
+        console.log("Reservation correctly deleted!");
+        if (reservation) {
+            res.status(201).send("Reservation Deleted!");
+        } else {
+            res.send("Reservation Not Found");
         }
-    })
+    } catch (error) {
+        res.status(400).json({ error: error });
+        next(error);
+    }
+})
 
 .put(async(req, res, next) => {
     try {

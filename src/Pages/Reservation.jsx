@@ -54,9 +54,7 @@ const Reservation = () => {
     }, [steps])
 
 
-    const roomsNameArray = rooms.map(rname => rname?.name)
-
-    // setRoomId(roomid)
+    const roomsNameArray = rooms?.map(rname => rname?.name)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -68,7 +66,7 @@ const Reservation = () => {
 
 
     const newReservation = {
-        // roomId: roomId,
+        roomId: roomId,
         roomName: roomName,
         customerName: customerName,
         customerEmail: customerEmail,
@@ -78,14 +76,13 @@ const Reservation = () => {
         hostNumber: hostNumber
     }
 
-
+    // we grab room name to take room ID so we can store this value in sigleRoom
     const handleChange = (event) => {
         const text = event.target.textContent
         setRoomName(text);
-        console.log("roomName", text, roomName, event)
-        let roomid = rooms?.filter(e => e.name === "Margherita")
-        console.log(roomid)
-        setRoomId(roomid)
+        let roomid = rooms?.filter(e => e.name === text)
+        const roomIdToSend = roomid[0]._id
+        setRoomId(roomIdToSend)
     };
 
     const handleChangeLastName = (event) => {
@@ -106,7 +103,7 @@ const Reservation = () => {
     };
 
 
-
+    // ======  add new reservation ======== 
     function handleAddReservation() {
         try {
             const res = axios.post("/reservation", newReservation)
@@ -117,6 +114,8 @@ const Reservation = () => {
             console.log(error)
         }
     };
+
+
 
     const handleSend = () => {
         setIsLoading(true);

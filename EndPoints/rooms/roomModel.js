@@ -6,7 +6,7 @@ const roomSchema = new Schema({
         type: String,
         required: true,
     },
-    // id: { type: "number", required: true },
+
     description: {
         type: String,
         required: true,
@@ -18,7 +18,8 @@ const roomSchema = new Schema({
     handicapHallowed: { type: String, required: true },
     small_pic: [],
     maxHost: { type: Number, required: true },
-    reservation: [{ type: Schema.Types.ObjectId, ref: "reservation" }],
+    reservation: [{ type: Schema.Types.ObjectId, ref: "Reservation" }],
+    currentBookingState: [],
 }, { timestamp: true });
 
-export default model("rooms", roomSchema);
+export default model("Rooms", roomSchema);

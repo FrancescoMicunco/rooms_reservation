@@ -18,11 +18,25 @@ router
 
 .get(async(req, res, next) => {
     try {
-        const rooms = await roomModel.find({});
+        const rooms = await roomModel.find({}).populate("reservation");
         return res.status(200).send(rooms);
     } catch (error) {
         next(error);
     }
+});
+
+router.route("/:id").get(async(req, res, next) => {
+    try {
+        const rooms = await roomModel
+            .findById(req.params.id)
+            .populate("reservations");
+
+        if (rooms) {
+            res.send(rooms);
+        } else {
+            next({ error: "Room not found" });
+        }
+    } catch (error) {}
 });
 
 export default router;
