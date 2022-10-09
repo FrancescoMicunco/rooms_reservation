@@ -7,10 +7,19 @@ export async function fetchAllReservations(setReservation) {
         url: "http://localhost:3001/reservation",
         headers: {},
     };
-    const data = await axios(config);
-    setReservation(data.data);
-    const fromDate = moment(data.startingDate).format("DD-MM-YYYY");
-    console.log("from date", fromDate);
+    try {
+        const data = await axios(config);
+        if (data) {
+            setReservation(data.data);
+        } else {
+            console.log("impossible to fetch reservations");
+        }
+    } catch (error) {
+        console.log("Bad request", error);
+    }
+
+    // const fromDate = moment(data.startingDate).format("DD-MM-YYYY");
+    // console.log("from date", fromDate);
 }
 
 export async function fetchAllRooms(setRooms) {
@@ -19,8 +28,16 @@ export async function fetchAllRooms(setRooms) {
         url: "http://localhost:3001/rooms",
         headers: {},
     };
-    const data = await axios(config);
-    setRooms(data.data);
+    try {
+        const data = await axios(config);
+        if (data) {
+            setRooms(data.data);
+        } else {
+            console.log("No rooms found");
+        }
+    } catch (error) {
+        console.log("Bad request", error);
+    }
 }
 
 export async function deleteReservation(id, setSteps) {
