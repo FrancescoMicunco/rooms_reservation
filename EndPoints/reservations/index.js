@@ -24,13 +24,12 @@ router
                 res.status(201).send(newReservation._id);
                 console.log("new reservation roomId", newReservation.roomId);
                 const temp = await Rooms.findById(newReservation.roomId);
-                console.log("temp", temp);
 
                 temp.currentBookingState.push({
                     bookingId: reservation._id,
                     customerName: reservation.customerName,
-                    fromdate: moment(reservation.startingDate).format("DD-MM-YYYY"),
-                    toDate: moment(reservation.endingDate).format("DD-MM-YYYY"),
+                    fromdate: reservation.startingDate,
+                    toDate: reservation.endingDate,
                     status: "booked",
                 });
                 temp.save();
@@ -72,9 +71,22 @@ router
         const reservation = await reservationSchema.findByIdAndDelete(
             req.params.id
         );
-        console.log("Reservation correctly deleted!");
         if (reservation) {
-            res.status(201).send("Reservation Deleted!");
+            console.log("reservation to delete", reservation._id);
+            res.status(202).send("Reservation Deleted!");
+            // 1) cerca la stanza che contiene la prenotazione
+            const roomIdToCheck = reservation.roomId;
+            const tempRoomArray = await Rooms.findById(roomIdToCheck);
+            console.log("RoomArray: " + tempRoomArray);
+            // 2) cerca la prenotazione nell'awrray delle prenotazioni
+            const tempCurrentReservation = tempRoomArray.currentBookingState;
+            const reservationToDeleteIndex = tempCurrentReservation.findIndex(
+                tempCurrentReservation.bookingId === reservation._id
+            );
+            console.log("index of reservation to delete", reservationToDeleteIndex);
+            // 3) cancella la prenotazione
+
+            // console.log("booking to delete on room current booking", tempRoom);
         } else {
             res.send("Reservation Not Found");
         }
