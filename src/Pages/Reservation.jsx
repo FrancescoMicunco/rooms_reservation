@@ -43,8 +43,8 @@ const Reservation = () => {
     const [open, setOpen] = useState(false);
     const [steps, setSteps] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
-    const [totalDays, setTotalDays] = useState(0);
-    const [totalAmount, setTotalAmount] = useState(0)
+    const [totalDays, setTotalDays] = useState();
+    const [totalAmount, setTotalAmount] = useState()
 
 
     useEffect(() => {
@@ -73,7 +73,9 @@ const Reservation = () => {
         customerPhoneNumber: customerPhoneNumber,
         startingDate: startingDate,
         endingDate: endingDate,
-        hostNumber: hostNumber
+        hostNumber: hostNumber,
+        totalDays: totalDays,
+        totalAmount: totalAmount,
     }
 
     // we grab room name to take room ID so we can store this value in sigleRoom
@@ -83,6 +85,10 @@ const Reservation = () => {
         let roomid = rooms?.filter(e => e.name === text)
         const roomIdToSend = roomid[0]._id
         setRoomId(roomIdToSend)
+        const rentperday = roomid[0].rentperday
+        const tempTotal = rentperday * totalDays
+        setTotalAmount(tempTotal)
+
     };
 
     const handleChangeLastName = (event) => {
@@ -105,6 +111,7 @@ const Reservation = () => {
 
     // ======  add new reservation ======== 
     function handleAddReservation() {
+
         try {
             const res = axios.post("/reservation", newReservation)
             if (res) {

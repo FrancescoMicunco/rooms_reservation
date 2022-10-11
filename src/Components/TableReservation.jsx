@@ -84,7 +84,8 @@ export default function StickyHeadTable({ reservation, setReservation }) {
     };
 
     const getFullDate = (date) => {
-        return moment(date).format("DD-MM-YYYY")
+        return date
+        // moment(date).format("DD-MM-YYYY")
         // const dateAndTime = date.split('T');
         // return dateAndTime[0].split('-').reverse().join('-');
     };

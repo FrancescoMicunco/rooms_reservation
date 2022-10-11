@@ -16,9 +16,10 @@ router
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
         try {
             const reservation = await reservationSchema(req.body);
-            console.log("reservation", reservation);
+
             if (res) {
                 const newReservation = await reservation.save();
                 res.status(201).send(newReservation._id);
@@ -72,8 +73,6 @@ router
             req.params.id
         );
         if (reservation) {
-            console.log("reservation to delete", reservation._id);
-            res.status(202).send("Reservation Deleted!");
             // 1) cerca la stanza che contiene la prenotazione
             const roomIdToCheck = reservation.roomId;
             const tempRoomArray = await Rooms.findById(roomIdToCheck);
@@ -81,12 +80,13 @@ router
             // 2) cerca la prenotazione nell'awrray delle prenotazioni
             const tempCurrentReservation = tempRoomArray.currentBookingState;
             const reservationToDeleteIndex = tempCurrentReservation.findIndex(
-                tempCurrentReservation.bookingId === reservation._id
+                (i) => i.bookingId === 'ObjectId("63453eb4f5a46539b2ee3ab0")'
             );
             console.log("index of reservation to delete", reservationToDeleteIndex);
             // 3) cancella la prenotazione
 
             // console.log("booking to delete on room current booking", tempRoom);
+            res.status(202).send("Reservation Deleted!");
         } else {
             res.send("Reservation Not Found");
         }
