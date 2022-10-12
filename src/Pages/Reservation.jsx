@@ -126,6 +126,7 @@ const Reservation = () => {
 
     const handleSend = () => {
         setIsLoading(true);
+
         handleAddReservation();
         setIsLoading(false);
         handleClose()
@@ -155,7 +156,7 @@ const Reservation = () => {
 
                     <FormControl>
                         <Space style={{ zIndex: "10" }}>
-                            <DataRange setStartingDate={setStartingDate} setEndingDate={setEndingDate} setTotalDays={setTotalDays} />
+                            <DataRange setStartingDate={setStartingDate} setEndingDate={setEndingDate} setTotalDays={setTotalDays} rooms={rooms} />
                         </Space>
                         <InputLabel htmlFor="component-outlined">Room name</InputLabel>
                         <Autocomplete
