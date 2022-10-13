@@ -14,29 +14,33 @@ const dateFormat = 'DD-MM-YYYY';
 //  ====================================================================
 
 function filterByDate(dates, arr) {
-
     const from = moment(dates[0].format("DD-MM-YYYY"))
     const to = moment(dates[1].format("DD-MM-YYYY"))
+    let availability = false
+    let availableRooms = []
+
     // all rooms haven't reservation
-    let filteredRoomsByToDate = arr.filter(r => r.currentBookingState.length <= 0)
-    // if there isn't, looking for in all rooms
-    if (filteredRoomsByToDate.length === 0) {
-        const filteredByName = arr.filter(r => r.currentBookingState.map(c => {
-            if (from.isAfter(c.fromdate) && to.isBefore(c.todate)) {
-                console.log("found it!")
-            } else { console.log("non c'è") }
-        }))
-        console.log("those room has reservations", filteredByName)
+    for (const room of arr) {
+        if (room.currentBookingState.length > 0) {
+            for (const item of room.currentBookingState) {
+                if (from.isBetween(item.todate, item.fromdate)
+                    || moment(to.isBetween(item.fromdate, item.todate))
+                ) {
+                    console.log("no available rooms")
+                } else { console.log(" rooms available"); availability = true }
+            } if (availability === true) {
+                availableRooms.push(room)
+                console.log("available rooms", availableRooms)
+            }
+        }
     }
 }
-
+// ======================
 
 const DataRange = ({ setStartingDate, setEndingDate, setTotalDays, rooms }) => {
     const dataPickerRange = (dates) => {
-
         const fromDate = dates[0]
         const toDate = dates[1]
-
         filterByDate(dates, rooms)
         setStartingDate(moment(fromDate).format("DD-MM-YYYY"));
         setEndingDate(moment(toDate).format("DD-MM-YYYY"));

@@ -51,6 +51,36 @@ export default function StickyHeadTable({ reservation, setReservation }) {
         }
     }
 
+
+    // update reservation
+
+    async function reservationUpdate(id) {
+        const data = JSON.stringify({})
+
+        const config = {
+            method: "put",
+            url: `http://localhost:3001/reservation/${id}`,
+            header: { 'Content-Type': 'application/json' },
+            data: data
+        };
+        try {
+            const res = await axios(config);
+            if (res) {
+                console.log(`The reservation n. ${id} has been updated successfully`);
+                setSteps((c) => c + 1);
+            } else {
+                console.log(`The reservation n. ${id} doesn't exist`);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // crea un modulo di update con campi input precompilati e modificabili
+    // 1) inserisci un modulo specifico
+    // 2) popola i campi con i dati della prenotazione
+    // 3) invia i dati al server
+
     const showDeleteConfirm = (id, setSteps = steps) => {
         confirm({
             title: `Are you sure delete this reservation?`,
@@ -74,7 +104,7 @@ export default function StickyHeadTable({ reservation, setReservation }) {
 
     const rows = reservation;
     console.log(rows)
-    // console.log("total days", totalDays)
+
 
     // function for the data table
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -245,7 +275,8 @@ export default function StickyHeadTable({ reservation, setReservation }) {
                     }} />
 
                     <UpdateOutlinedIcon style={{ color: "green", cursor: "pointer" }} onClick={() => {
-                        console.log(record);
+                        const id = record._id;
+                        // showUpdate(id)
                     }} />
 
                 </div>
